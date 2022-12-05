@@ -1,0 +1,56 @@
+@import "./Base.scss";
+
+.header-home {
+  background-color: #fff !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  .container-fluid {
+    .navbar-brand {
+      img {
+        width: 100%;
+      }
+    }
+    .navbar-toggler {
+      span {
+      }
+    }
+    .navbar-collapse {
+      .form-custom {
+        padding-left: 10%;
+        input {
+          width: 90vh;
+        }
+        button {
+        }
+      }
+      ul {
+        padding-left: 10%;
+        .nav-item {
+          .nav-link {
+            font-size: 26px;
+          }
+          .dropdown-menu {
+            padding: 0;
+            .dropdown-item {
+              color: #000;
+              background-color: #fff;
+              width: 250px;
+              padding: 20px 18px;
+              font-size: 24px;
+              transition: all 0.5s;
+              &:hover {
+                background-color: #fff9c4;
+              }
+            }
+          }
+        }
+      }
+    }
+    .login {
+      margin-right: 25px;
+    }
+  }
+}
