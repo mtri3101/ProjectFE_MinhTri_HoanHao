@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createBrowserHistory } from "history";
 
 export const USER_LOGIN = 'userLogin';
+export const USER_REGISTER = 'userRegister'
 export const ACCESSTOKEN = 'accessToken';
 export const history = createBrowserHistory();
 

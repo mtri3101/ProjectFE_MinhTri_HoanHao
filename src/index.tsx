@@ -9,6 +9,11 @@ import { Provider } from 'react-redux';
 import Search from './Pages/Search';
 import CourseByCategory from './Pages/CourseByCategory';
 import Detail from './Pages/Detail';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import Profile from './Pages/Profile';
+
+
 
 
 export const history: any = createBrowserHistory()
@@ -32,6 +37,9 @@ root.render(
           <Route path='chitiet'>
             <Route path=':maKhoaHoc' element={<Detail />}> </Route>
           </Route>
+          <Route path='login' element={<Login />}></Route>
+          <Route path='register' element={<Register />}></Route>
+          <Route path='profile' element={<Profile />}></Route>
           <Route path='*' element={<Navigate to={""} />}></Route>
         </Route>
       </Routes>
