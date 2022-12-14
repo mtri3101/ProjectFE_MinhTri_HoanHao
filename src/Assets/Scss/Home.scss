@@ -1,5 +1,15 @@
 @import "./Base.scss";
 
+.reveal{
+  position: relative;
+  transform: translateY(150px);
+  opacity: 0;
+  transition: 2s all ease;
+}
+.reveal.active{
+  transform: translateY(0);
+  opacity: 1;
+}
 
 .home-page {
   padding-left: 0;
@@ -9,7 +19,7 @@
       .carousel-item {
         position: relative;
         .carousel-banner {
-          background-color: #e1f5fe;
+          background-color: #fff;
           width: 100%;
           height: 800px;
           z-index: 0;
@@ -17,6 +27,7 @@
             .left-content {
               padding-top: 7%;
               padding-left: 5%;
+              animation-duration: 1.5s;
               h1 {
                 color: #d50000;
                 font-weight: 700;
@@ -36,9 +47,15 @@
                 display: inline-block;
                 color: #fff;
                 padding: 20px 40px;
-                background-color: purple;
+                background-color: #4fb291;
+                border-radius: 5px;
                 font-size: 24px;
                 cursor: pointer;
+                transition: all 0.5s;
+                &:hover {
+                  background-color: #243f56;
+                  color: #fff;
+                }
               }
             }
             .right-image {
@@ -49,7 +66,7 @@
                 height: 700px;
                 position: relative;
                 left: -10%;
-                animation: fadeIn 3s infinite alternate;
+                animation: upNDown 3s infinite alternate;
               }
             }
           }
@@ -57,45 +74,284 @@
       }
     }
   }
-  .new-courses {
-    margin-top: 50px;
-    h3 {
+  .welcome {
+    background-color: #243f56;
+    color: #fff;
+    min-height: 650px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .main {
+      padding: 60px 0;
+      height: auto;
+      min-height: 450px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .content {
+        width: 40vw;
+        margin: 0 auto;
+        text-align: center;
+        h2 {
+          font-size: 48px;
+          font-weight: 700;
+        }
+        p {
+          margin: 40px 0;
+          font-size: 20px;
+          font-weight: 300;
+          line-height: 2;
+        }
+        a {
+          padding: 14px 36px;
+          font-size: 18px;
+          color: #fff;
+          background-color: #4fb291;
+          border: 1px solid transparent;
+          border-radius: 50px;
+        }
+      }
+    }
+    .rec {
+      width: 30px;
+      height: 450px;
+      background-color: #4fb291;
+    }
+  }
+  .person {
+    margin: 60px 0;
+    h2 {
       font-size: 60px;
       text-align: center;
-      margin-bottom: 70px;
+      margin-bottom: 20px;
+      font-weight: 600;
     }
     .row {
-      justify-content: space-evenly;
-      max-width: 100%;
-      .col-3 {
-        max-width: 21vw;
-        margin-bottom: 100px;
+      max-width: 1140px;
+      justify-content: center;
+      margin: 0 auto;
+      .col-4 {
+        color: #fff;
         .card {
-          max-width: 100%;
-          position: relative;
+          background-color: #243f56;
+          padding: 30px 23px;
           border-radius: 20px;
           img {
-            max-width: 100%;
-            border-radius: 20px 0 0 0;
-            height: 270px;
-            object-fit: cover;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 10px;
           }
-          .card-body {
-            padding-top: 30px;
-            height: 350px;
-            h1{}
-            p{
-              text-overflow: ellipsis;
-              font-size: 22px;
-              margin: 20px 0;
-              line-height: 22px;
+          h3 {
+            font-size: 30px;
+            text-align: center;
+            font-weight: 700;
+            margin-top: 43px;
+          }
+          p {
+            font-size: 18px;
+            margin-top: 18px;
+            line-height: 1.6;
+            text-align: center;
+            min-height: 175px;
+          }
+          i {
+            font-size: 60px;
+            text-align: center;
+            color: #4fb291;
+          }
+          .mid-arrow {
+            color: #fff;
+          }
+        }
+        .dark-bg {
+          background-color: #4fb291;
+        }
+      }
+    }
+  }
+  .benefit {
+    background-color: #243f56;
+    .main {
+      width: 90vw;
+      margin: 0 auto;
+      min-height: 800px;
+      display: flex;
+      align-items: center;
+      padding: 60px 0;
+      .col-3 {
+        width: 20vw;
+        display: flex;
+        align-items: center;
+        p {
+          text-align: center;
+          color: #fff;
+          font-size: 60px;
+          line-height: 60px;
+        }
+      }
+      .col-9 {
+        .row {
+          .col-4 {
+            text-align: center;
+            .card {
+              padding: 20px;
+              width: 16vw;
+              background-color: #4fb291;
+              color: #fff;
+              border-radius: 15px;
+              min-height: 45vh;
+              h2 {
+                font-size: 48px;
+                font-weight: 700;
+              }
+              h3 {
+                font-size: 20px;
+                margin: 20px 0 18px;
+                font-weight: 700;
+              }
+              p {
+                font-size: 18px;
+                line-height: 1.5;
+                font-weight: 300;
+              }
             }
-            .row{
-              .fa-calendar{}
-              .fa-eye{}
+            .light-card {
+              background-color: #fff;
+              color: #808080;
+              h2 {
+                color: #243f56;
+              }
+              h3 {
+                color: #243f56;
+              }
             }
-            button{
-              margin-top: 15px;
+          }
+        }
+        .top {
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
+  .statistic {
+    .main {
+      width: 90vw;
+      margin: 0 auto;
+      padding: 80px 0;
+      .content {
+        align-items: center;
+        text-align: center;
+        .col-4 {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .number {
+            height: 200px;
+            width: 11vw;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            span {
+              font-size: 48px;
+              font-weight: 700;
+              color: #4fb291;
+              line-height: 48px;
+              margin-bottom: 18px;
+            }
+            p {
+              color: #111111;
+              font-size: 24px;
+              font-weight: 700;
+              line-height: 24px;
+            }
+          }
+        }
+        .mid-col {
+          img{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .new-courses {
+    background: linear-gradient(
+        0deg,
+        rgba(36, 63, 86, 0.65),
+        rgba(36, 63, 86, 0.65)
+      ),
+      url("../Img/course-bg2.jpg");
+    background-position: center center;
+    background-size: cover;
+    .main {
+      padding: 60px 0;
+      h3 {
+        font-size: 48px;
+        text-align: center;
+        margin-bottom: 70px;
+        color: #fff;
+        font-weight: 700;
+      }
+      .row {
+        justify-content: space-evenly;
+        max-width: 100%;
+        .col-3 {
+          max-width: 23vw;
+          margin-bottom: 100px;
+          padding: 0 3vw;
+          .card {
+            max-width: 100%;
+            position: relative;
+            border-radius: 20px;
+            img {
+              max-width: 100%;
+              border-radius: 20px 0 0 0;
+              height: 200px;
+              object-fit: cover;
+            }
+            .card-body {
+              padding-top: 30px;
+              min-height: 28vh;
+              h1 {
+                font-size: 22px;
+                font-weight: 600;
+              }
+              p {
+                text-overflow: ellipsis;
+                font-size: 18px;
+                font-weight: 300;
+                margin: 20px 0;
+                line-height: 24px;
+              }
+              .row {
+                justify-content: space-between;
+                .calendar {
+                  width: 65%;
+                }
+                .eye {
+                  width: 35%;
+                }
+                span {
+                  width: 100%;
+                  margin-left: 5px;
+                  font-size: 14px;
+                  font-weight: 400;
+                }
+              }
+              a {
+                margin-top: 15px;
+                color: #fff;
+                background-color: #4fb291;
+                padding: 10px 20px;
+                display: inline-block;
+                border-radius: 5px;
+                transition: all 1s;
+                &:hover{
+                  background-color: #243f56;
+                }
+              }
             }
           }
         }
@@ -104,14 +360,13 @@
   }
 }
 
-
 .outer-circle {
   position: absolute;
   top: -5%;
   left: 90%;
   height: 100px;
   width: 100px;
-  background-color:  red;
+  background-color: red;
   border-radius: 50%;
   animation: rotate 3s linear infinite;
 }
@@ -120,23 +375,23 @@
   position: absolute;
   height: 100px;
   width: 100px;
-  background-color:  red;
+  background-color: red;
   border-radius: 50%;
 }
 
-span:nth-child(1) {
+.outer-circle span:nth-child(1) {
   filter: blur(5px);
 }
 
-span:nth-child(2) {
+.outer-circle span:nth-child(2) {
   filter: blur(10px);
 }
 
-span:nth-child(3) {
+.outer-circle span:nth-child(3) {
   filter: blur(25px);
 }
 
-span:nth-child(4) {
+.outer-circle span:nth-child(4) {
   filter: blur(150px);
 }
 
@@ -151,19 +406,18 @@ span:nth-child(4) {
   z-index: 9;
 }
 
-.outer-circle p{
+.outer-circle p {
   position: relative;
   top: 50%;
   left: 50%;
   z-index: 1000;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   text-align: center;
   font-size: 30px;
   color: #000;
 }
 
-
-@keyframes fadeIn {
+@keyframes upNDown {
   0% {
     top: -30px;
   }
@@ -180,6 +434,3 @@ span:nth-child(4) {
     filter: hue-rotate(360deg);
   }
 }
-
-
-

@@ -1,0 +1,186 @@
+@import "./Base.scss";
+
+.detail-page {
+  margin-top: 100px;
+  h2.title {
+    text-align: center;
+    font-size: 40px;
+    background-color: #243f56;
+    padding: 40px 0;
+    color: #fff;
+  }
+  .main {
+    margin-top: 100px;
+
+    .col-7 {
+      h2 {
+        font-weight: 600;
+        font-size: 40px;
+        border-bottom: 3px solid #000;
+        display: inline-block;
+      }
+      .intro {
+        margin-top: 30px;
+        h3 {
+          font-size: 16px;
+          font-weight: 400;
+          margin-bottom: 40px;
+          font-weight: 400;
+          span {
+            font-size: 30px;
+            font-style: italic;
+          }
+        }
+      }
+      .target {
+        h3 {
+        }
+        .row {
+          h4 {
+            font-weight: 400;
+            line-height: 30px;
+            font-size: 16px;
+            i {
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+      .skill {
+        margin-top: 20px;
+        div {
+          width: 70%;
+          margin: 0 auto;
+          img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 3px solid black;
+          }
+        }
+      }
+    }
+    .col-5 {
+      width: 37vw;
+      margin: auto;
+      .card {
+        border-radius: 10px;
+        box-shadow: 1px 1px 10px 4px gray;
+        padding-bottom: 20px;
+        img {
+          height: 500px;
+          border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+          h2 {
+            font-size: 26px;
+            text-align: right;
+            margin-bottom: 25px;
+          }
+          h3 {
+            font-size: 16px;
+            font-weight: 400;
+            display: flex;
+            margin-bottom: 20px;
+            span {
+              margin-left: auto;
+            }
+          }
+          a {
+            display: block;
+            margin-left: auto;
+            color: #fff;
+            background-color: #4fb291;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 1s;
+            border: 1px solid transparent;
+            &:hover {
+              background-color: #243f56;
+            }
+            width: 10vw;
+          }
+          input {
+            display: block;
+            margin-top: 20px;
+            width: 100%;
+            padding: 8px;
+            &::placeholder {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .related-course {
+    margin-top: 50px;
+    h2 {
+      font-size: 30px;
+    }
+    .row {
+      max-width: 100%;
+      .col-3 {
+        max-width: 23vw;
+        margin-bottom: 100px;
+        padding: 0 3vw;
+        .card {
+          max-width: 100%;
+          position: relative;
+          border-radius: 20px;
+          img {
+            max-width: 100%;
+            border-radius: 20px 0 0 0;
+            height: 200px;
+            object-fit: cover;
+          }
+          .card-body {
+            padding-top: 30px;
+            min-height: 28vh;
+            h1 {
+              font-size: 22px;
+              font-weight: 600;
+            }
+            p {
+              text-overflow: ellipsis;
+              font-size: 18px;
+              font-weight: 300;
+              margin: 20px 0;
+              line-height: 24px;
+            }
+            .row {
+              justify-content: space-between;
+              .calendar {
+                width: 65%;
+              }
+              .eye {
+                width: 35%;
+              }
+              span {
+                width: 100%;
+                margin-left: 5px;
+                font-size: 14px;
+                font-weight: 400;
+              }
+            }
+            a {
+              margin-top: 15px;
+              color: #fff;
+              background-color: #4fb291;
+              padding: 10px 20px;
+              display: inline-block;
+              border-radius: 5px;
+              transition: all 1s;
+              border: 1px solid transparent;
+              &:hover {
+                background-color: #243f56;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
