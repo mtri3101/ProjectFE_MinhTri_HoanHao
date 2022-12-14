@@ -5,17 +5,47 @@ import '../Assets/Scss/HeaderHome.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { DispatchType, RootState } from '../Redux/ConfigStore'
 import { CourseCategoryModel, getCourseCategoryApi } from '../Redux/Reducers/CourseReducer'
+import { history } from '../index';
+import { ACCESSTOKEN, settings, USER_LOGIN } from '../Utils/Config';
+import { UserProfile } from '../Redux/Reducers/UserReducer'
 
 type Props = {}
 
 export default function HeaderHome({ }: Props) {
   const { courseCategory } = useSelector((state: RootState) => state.CourseReducer);
+  const { userProfile } = useSelector((state: RootState) => state.UserReducer);
   const dispatch: DispatchType = useDispatch();
   useEffect(() => {
     const actionAsync = getCourseCategoryApi();
     dispatch(actionAsync)
     console.log(courseCategory)
   }, [])
+
+  const renderLogin = () => {
+    if (userProfile.hoTen) {
+      return <>
+      <NavLink className='nav-link' to='/profile' style={{ padding: 0}}>
+        <img
+            src="https://thuthuatnhanh.com/wp-content/uploads/2020/02/anh-ngau-chat-260x390.jpg"
+            style={{ width: 50, height: 50, borderRadius: 30 }}
+            alt="..."
+          />
+      </NavLink>
+        <NavLink className='nav-link text-dark' to='/profile'>{userProfile.hoTen}</NavLink>
+        <button className='nav-link text-dark' style={{ background: 'none', border: 'none', padding: 0 }} onClick={() => {
+          settings.eraseCookie(ACCESSTOKEN);
+          localStorage.removeItem(USER_LOGIN);
+          localStorage.removeItem(ACCESSTOKEN);
+          window.location.href = '/login';
+        }}>Đăng xuất</button>
+      </>
+    }
+    return <>
+    <NavLink className='btn btn-primary me-3 register' to='/register'>Đăng ký</NavLink>
+    <NavLink className='btn btn-warning login' to='/login'>Đăng nhập</NavLink>
+    </>
+    
+  }
 
   const renderCourseCategory = (): JSX.Element[] => {
     return courseCategory.map((cate: CourseCategoryModel, index: number) => {
@@ -49,9 +79,10 @@ export default function HeaderHome({ }: Props) {
             </li>
           </ul>
         </div>
-        <NavLink className='btn btn-warning login' to='/login'>
+        {renderLogin()}
+        {/* <NavLink className='btn btn-warning login' to='/login'>
           Đăng nhập
-        </NavLink>
+        </NavLink> */}
       </div>
     </nav>
 

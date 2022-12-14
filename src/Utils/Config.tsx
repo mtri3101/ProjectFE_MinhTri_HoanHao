@@ -3,6 +3,7 @@ import { createBrowserHistory } from "history";
 //Setup hằng số, 1 số hàm xử lý chung
 
 export const USER_LOGIN = 'userLogin';
+export const USER_REGISTER = 'userRegister'
 export const ACCESSTOKEN = 'accessToken';
 
 //history dùng để chuyển hướng trang các file không phải là component
