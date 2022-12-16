@@ -118,9 +118,10 @@ http.interceptors.response.use((response) => {
     //Khi request thất bại của tất cả http sẽ trả tại đây (thay vì xử lý navigate từng trang như trong file reducer)
     console.log(error)
     if (error.response?.status === 401) {
-        // window.location.href = '/login' //Chuyển hướng nhưng reload lại page => có thể mất dữ liệu từ redux
+        //window.location.href = '/login' //Chuyển hướng nhưng reload lại page => có thể mất dữ liệu từ redux
         //Mục đích: chuyển hướng trang mà không cần reload lại page
-        history.push('/login')
+        // history.push('/login')
+        window.location.href = '/login'
     }
     if (error.response?.status === 400 || error.response?.status === 404) {
         history.push('/')

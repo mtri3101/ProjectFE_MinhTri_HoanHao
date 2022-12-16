@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Profile from './Pages/Profile';
+import MyCourse from './Pages/MyCourse';
 
 
 
@@ -28,6 +29,7 @@ root.render(
         <Route path='login' element={<Login />}></Route>
         <Route path='register' element={<Register />}></Route>
         <Route path='profile' element={<Profile />}></Route>
+        <Route path='myCourse' element={<MyCourse />}></Route>
       </Route>
     </Routes>
   </HistoryRouter>

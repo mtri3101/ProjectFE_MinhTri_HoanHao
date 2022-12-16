@@ -1,0 +1,70 @@
+.container {
+  h3 {
+  }
+  .row {
+    .col-2 {
+      img {
+      }
+      h6 {
+      }
+      p {
+      }
+      .btn {
+      }
+    }
+    .col-8 {
+      .row {
+        .thongTin {
+          .caNhan {
+          }
+          .khoaHoc {
+          }
+        }
+        .thongTinKhoaHoc {
+          .timKhoaHoc {
+            h6 {
+            }
+            form {
+              .searchForm {
+                background-image: url("../Img/search.fb399e91.png");
+                background-size: 30px;
+                background-position: 100%;
+                background-repeat: no-repeat;
+                background-color: #eee;
+                border: none;
+                height: 40px;
+                border-radius: 8px;
+                padding-left: 10px;
+              }
+            }
+          }
+        }
+        .course{
+          .row-course{
+            align-items: center;
+            .col-2{
+              padding-top: 0;
+              img{
+                border-radius: 10px;
+              }
+            }
+            .col-8{
+              h5{
+
+              }
+              p{
+                margin-bottom: 0;
+                font-weight: 300;
+                line-height: 20px;
+                font-size: 16px;
+              }
+              .btn{
+                margin-left: 90%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

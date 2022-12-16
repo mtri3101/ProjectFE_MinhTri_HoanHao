@@ -53,7 +53,7 @@ export interface UserState {
 const initialState = {
     userLogin: settings.getStorageJson(USER_LOGIN) ? settings.getStorageJson(USER_LOGIN) : [],
     userProfile: {
-      chiTietKhoaHocGhiDanh: null,
+      chiTietKhoaHocGhiDanh: [],
       taiKhoan:              null,
       hoTen:                 null,
       soDT:                  null,

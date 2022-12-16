@@ -64,7 +64,7 @@ export default function Profile({}: Props ) {
           <div className="row">
             <div className="thongTin">
               <NavLink to="" className="btn caNhan">Thông tin cá nhân</NavLink>
-              <NavLink className="btn khoaHoc" to="/khoaHoc">
+              <NavLink className="btn khoaHoc" to="/myCourse">
                 Khóa học
               </NavLink>
             </div>

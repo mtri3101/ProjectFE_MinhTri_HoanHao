@@ -35,7 +35,7 @@ export default function Login({}: Props) {
       <div className='form-control-taiKhoan'>
         <p>Tài Khoản</p>
         <input placeholder="Vui lòng nhập vào tài khoản" type="text" name='taiKhoan' id='taiKhoan' onChange={frm.handleChange} onBlur={frm.handleBlur}/>
-        {frm.errors.taiKhoan ? <p className='text text-danger'>{frm.errors.taiKhoan}</p> : ''}
+        {frm.errors.taiKhoan ? <p className='text text-danger mt-1'>{frm.errors.taiKhoan}</p> : ''}
       </div>
       <div className='form-control-matKhau'>
         <p>Mật Khẩu</p>
