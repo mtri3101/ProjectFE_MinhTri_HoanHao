@@ -58,14 +58,14 @@ export interface CourseState {
     arrCourse: CourseModel[],
     courseCategory: CourseCategoryModel[],
     listCourseCatalog: CourseModel[],
-    courseDetail: CourseDetail | null
+    courseDetail: CourseDetail | null,
 }
 
 const initialState:CourseState = {
     arrCourse: [],
     courseCategory: [],
     listCourseCatalog: [],
-    courseDetail: null
+    courseDetail: null,
 }
 
 const CourseReducer = createSlice({
@@ -138,6 +138,7 @@ export const getCourseDetailApi = (maKhoaHoc: string) => {
         dispatch(action)
     }
 }
+
 
 
 
