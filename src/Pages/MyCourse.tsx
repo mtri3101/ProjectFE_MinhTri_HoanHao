@@ -6,7 +6,7 @@ import { DispatchType, RootState } from "../Redux/ConfigStore";
 import { UserProfile } from "../Redux/Reducers/UserReducer";
 import { getProfileApi } from '../Redux/Reducers/UserReducer'
 import { useParams } from 'react-router-dom'
-import { getCancelSubcribeApi } from "../Redux/Reducers/CourseReducer";
+import { CourseDetail, getCancelSubcribeApi } from "../Redux/Reducers/CourseReducer";
 
 type Props = {};
 
@@ -23,17 +23,19 @@ export default function MyCourse({}: Props) {
 
   const [keyword,setKeyword] = useState('')
 
+  
   const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target
     setKeyword(value)
   }
+  
 
   const handleSubmit = (event:any) =>{
     event.preventDefault();
-    // if(keyword === userProfile.chiTietKhoaHocGhiDanh?.tenKhoaHoc){
+    if(keyword === userProfile.chiTietKhoaHocGhiDanh.tenKhoaHoc){
       const action = getProfileApi();
       dispatch(action)
-    // }
+    }
   } 
 
   const cancelCourse = (maKhoaHoc:any) =>{
@@ -44,20 +46,20 @@ export default function MyCourse({}: Props) {
 
   const renderCourse = () => {
     return userProfile.chiTietKhoaHocGhiDanh.map(
-      (course: UserProfile, index: number) => {
+      (course: CourseDetail, index: number) => {
         return (
           <div className="container course" key={index}>
             <div className="row row-course">
               <div className="col-2">
                 <img
-                  src={course.chiTietKhoaHocGhiDanh.hinhAnh}
+                  src={course.hinhAnh}
                   style={{ width: 150, height: 120 }}
                   alt=""
                 />
               </div>
               <div className="col-8">
-                <h5>{course.chiTietKhoaHocGhiDanh.tenKhoaHoc}</h5>
-                <p>{course.chiTietKhoaHocGhiDanh.moTa}</p>
+                <h5>{course.tenKhoaHoc}</h5>
+                <p>{course.moTa}</p>
                 <button className="btn btn-danger" type="button">Hủy</button>
               </div>
             </div>
@@ -104,7 +106,7 @@ export default function MyCourse({}: Props) {
                     name="search"
                     onChange={handleChange}
                   />
-                  <NavLink to={`/myCourse/${keyword}`} className="btn btn-outline-success" type="submit">Tìm kiếm</NavLink>
+                  <NavLink to={"#"} className="btn btn-outline-success">Tìm kiếm</NavLink>
                 </form>
               </div>
             </div>
