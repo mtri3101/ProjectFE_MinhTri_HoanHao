@@ -2,6 +2,7 @@
 
 .detail-page {
   margin-top: 100px;
+  background-color: #243f56;
   h2.title {
     text-align: center;
     font-size: 40px;
@@ -11,7 +12,8 @@
   }
   .main {
     margin-top: 100px;
-
+    background-color: #fff;
+    padding: 60px 0;
     .col-7 {
       h2 {
         font-weight: 600;
@@ -70,7 +72,8 @@
         box-shadow: 1px 1px 10px 4px gray;
         padding-bottom: 20px;
         img {
-          height: 500px;
+          height: 40vh;
+          object-fit: cover;
           border-radius: 10px 10px 0 0;
         }
         .card-body {
@@ -118,10 +121,14 @@
   .related-course {
     margin-top: 50px;
     h2 {
-      font-size: 30px;
+      font-size: 48px;
+      margin-bottom: 50px;
+      color: #fff;
+      text-align: center;
     }
     .row {
       max-width: 100%;
+      justify-content: center;
       .col-3 {
         max-width: 23vw;
         margin-bottom: 100px;
@@ -132,7 +139,7 @@
           border-radius: 20px;
           img {
             max-width: 100%;
-            border-radius: 20px 0 0 0;
+            border-radius: 20px 20px 0 0;
             height: 200px;
             object-fit: cover;
           }

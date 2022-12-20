@@ -1,17 +1,25 @@
+import { $CombinedState } from '@reduxjs/toolkit'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
 import '../Assets/Scss/Detail.scss'
 import { DispatchType, RootState } from '../Redux/ConfigStore'
 import { CourseModel, getArrCouseApi, getCourseDetailApi } from '../Redux/Reducers/CourseReducer'
+import { getProfileApi, getRegisterCourseApi } from '../Redux/Reducers/UserReducer'
 
 type Props = {}
 
 export default function Detail({ }: Props) {
     const { arrCourse } = useSelector((state: RootState) => state.CourseReducer);
     const { courseDetail } = useSelector((state: RootState) => state.CourseReducer);
+    const { userProfile } = useSelector((state: RootState) => state.UserReducer)
     const dispatch: DispatchType = useDispatch();
     const params: any = useParams()
+
+    useEffect(() => {
+        const action = getProfileApi();
+        dispatch(action)
+    }, [])
 
     useEffect(() => {
         const action = getArrCouseApi();
@@ -22,6 +30,39 @@ export default function Detail({ }: Props) {
         const action = getCourseDetailApi(params.maKhoaHoc);
         dispatch(action)
     }, [params.maKhoaHoc])
+
+    const openModal = () => {
+        return <div id="myModal" className="modal fade" tabIndex={-1}>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Modal title</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                    </div>
+                    <div className="modal-body">
+                        <p>Modal body text goes here.<span className="badge">By <a href="https://webdevrahul007.w3spaces.com/" />Rahul jangid</span></p>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+    const handleRegister = () => {
+        const detail = {
+            "maKhoaHoc": params.maKhoaHoc,
+            "taiKhoan": userProfile.taiKhoan,
+        }
+        const action = getRegisterCourseApi(detail);
+        dispatch(action);
+        alert("Bạn đã đăng ký khóa học thành công")
+
+    }
 
 
 
@@ -107,7 +148,7 @@ export default function Detail({ }: Props) {
                             <h3>Thời gian học:<span> 150 giờ</span></h3>
                             <h3>Trình độ:<span> Dành cho người mới</span></h3>
                             <h3>Ngày bắt đầu: <span>{courseDetail?.ngayTao}</span></h3>
-                            <button type='button' className='btn btn-primary'>Đăng ký ngay</button>
+                            <NavLink to={'#'} className='btn btn-primary'>Đăng ký ngay</NavLink>
                             <input placeholder='Mã giảm giá'></input>
                         </div>
                     </div>
