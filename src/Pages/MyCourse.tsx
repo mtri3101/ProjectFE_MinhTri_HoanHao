@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../Redux/ConfigStore";
-import { UserProfile } from "../Redux/Reducers/UserReducer";
+import { CourseDetail, UserProfile } from "../Redux/Reducers/UserReducer";
 import { getProfileApi } from '../Redux/Reducers/UserReducer'
 import { useParams } from 'react-router-dom'
 import { getCancelSubcribeApi } from "../Redux/Reducers/CourseReducer";
@@ -42,22 +42,24 @@ export default function MyCourse({}: Props) {
     dispatch(action)
   }
 
+  console.log(userProfile.chiTietKhoaHocGhiDanh)
+
   const renderCourse = () => {
     return userProfile.chiTietKhoaHocGhiDanh.map(
-      (course: UserProfile, index: number) => {
+      (course: CourseDetail, index: number) => {
         return (
           <div className="container course" key={index}>
             <div className="row row-course">
               <div className="col-2">
                 <img
-                  src={course.chiTietKhoaHocGhiDanh.hinhAnh}
+                  src={course.hinhAnh}
                   style={{ width: 150, height: 120 }}
                   alt=""
                 />
               </div>
               <div className="col-8">
-                <h5>{course.chiTietKhoaHocGhiDanh.tenKhoaHoc}</h5>
-                <p>{course.chiTietKhoaHocGhiDanh.moTa}</p>
+                <h5>{course.tenKhoaHoc}</h5>
+                <p>{course.moTa}</p>
                 <button className="btn btn-danger" type="button">Hủy</button>
               </div>
             </div>
