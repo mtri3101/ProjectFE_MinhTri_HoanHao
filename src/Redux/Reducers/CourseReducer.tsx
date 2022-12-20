@@ -51,21 +51,26 @@ export interface CourseDetail {
     nguoiTao: NguoiTAO;
     danhMucKhoaHoc: DanhMucKhoaHoc;
 }
-
+export interface CancelSubcribe {
+    maKhoaHoc: string;
+    taiKhoan: string;
+}
 
 //type state
 export interface CourseState {
     arrCourse: CourseModel[],
     courseCategory: CourseCategoryModel[],
     listCourseCatalog: CourseModel[],
-    courseDetail: CourseDetail | null
+    courseDetail: CourseDetail | null,
+    cancelSubcribe: CancelSubcribe[]
 }
 
 const initialState:CourseState = {
     arrCourse: [],
     courseCategory: [],
     listCourseCatalog: [],
-    courseDetail: null
+    courseDetail: null,
+    cancelSubcribe: []
 }
 
 const CourseReducer = createSlice({
@@ -86,14 +91,14 @@ const CourseReducer = createSlice({
         },
         setCourseDetailAction: (state: CourseState, action: PayloadAction<CourseDetail>) => {
             state.courseDetail = action.payload;
+        },
+        cancelSubcribeAction: (state: CourseState, action: PayloadAction<CancelSubcribe[]>) =>{
+            state.cancelSubcribe = action.payload;
         }
-
-
-
     }
 });
 
-export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction } = CourseReducer.actions
+export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction, cancelSubcribeAction } = CourseReducer.actions
 
 export default CourseReducer.reducer
 
@@ -139,5 +144,10 @@ export const getCourseDetailApi = (maKhoaHoc: string) => {
     }
 }
 
-
-
+export const getCancelSubcribeApi = (maKhoaHoc:any) => {
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh',maKhoaHoc);
+        const action = cancelSubcribeAction(result.data);
+        dispatch(action)
+    }
+}

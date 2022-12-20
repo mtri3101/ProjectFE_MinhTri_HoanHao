@@ -24,17 +24,28 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-  <HistoryRouter history={history}>
-    <Routes>
-      <Route path="" element={<HomeTemplate />}>
-        <Route index element={<Home />}></Route>
-        <Route path='home' element={<Home />}></Route>
-        <Route path='login' element={<Login />}></Route>
-        <Route path='register' element={<Register />}></Route>
-        <Route path='profile' element={<Profile />}></Route>
-      </Route>
-    </Routes>
-  </HistoryRouter>
+    <HistoryRouter history={history}>
+      <Routes>
+        <Route path="" element={<HomeTemplate />}>
+          <Route index element={<Home />}></Route>
+          <Route path='home' element={<Home />}></Route>
+          <Route path='danhmuckhoahoc'>
+            <Route path=':tenDanhMuc' element={<CourseByCategory />}></Route>
+          </Route>
+          <Route path='timkiem'>
+            <Route path=':tuKhoa' element={<Search />}></Route>
+          </Route>
+          <Route path='chitiet'>
+            <Route path=':maKhoaHoc' element={<Detail />}> </Route>
+          </Route>
+          <Route path='login' element={<Login />}></Route>
+          <Route path='register' element={<Register />}></Route>
+          <Route path='profile' element={<Profile />}></Route>
+          <Route path='myCourse' element={<MyCourse />}></Route>
+          <Route path='*' element={<Navigate to={""} />}></Route>
+        </Route>
+      </Routes>
+    </HistoryRouter>
   </Provider>
 );
 

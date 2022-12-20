@@ -21,6 +21,16 @@ export interface UserProfile {
     maNhom:                string;
     email:                 string;
 }
+export interface CourseDetail {
+  biDanh: string;
+  danhGia: number;
+  hinhAnh: string;
+  luotXem: number;
+  maKhoaHoc: string;
+  moTa: string;
+  ngayTao: Date;
+  tenKhoaHoc: string;
+}
 export interface UserProfileUpdate {
   taiKhoan:                  string;
   matKhau:                   string;
@@ -45,21 +55,32 @@ export interface UserRegister {
 
 export interface UserState {
     userLogin: UserLogin[],
-    userProfile: UserProfile | any,
+    userProfile: UserProfile | CourseDetail | any,
     userProfileUpdate: UserProfileUpdate[],
     userRegister: UserRegister[],
 }
 
-const initialState = {
+const initialState:UserState  = {
     userLogin: settings.getStorageJson(USER_LOGIN) ? settings.getStorageJson(USER_LOGIN) : [],
     userProfile: {
-      chiTietKhoaHocGhiDanh: [],
-      taiKhoan:              null,
-      hoTen:                 null,
-      soDT:                  null,
-      maLoaiNguoiDung:       null,
-      maNhom:                null,
-      email:                 null,
+      chiTietKhoaHocGhiDanh: [
+        {
+          biDanh: "",
+          danhGia: "",
+          hinhAnh: "",
+          luotXem: "",
+          maKhoaHoc: "",
+          moTa: "",
+          ngayTao: "",
+          tenKhoaHoc: ""
+        }
+      ],
+      taiKhoan:              "",
+      hoTen:                 "",
+      soDT:                  "",
+      maLoaiNguoiDung:       "",
+      maNhom:                "",
+      email:                 "",
     },
     userProfileUpdate: [],
     userRegister: settings.getStorageJson(USER_REGISTER) ? settings.getStorageJson(USER_REGISTER) : [],
