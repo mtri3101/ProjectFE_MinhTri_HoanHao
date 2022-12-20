@@ -148,7 +148,7 @@ export default function Detail({ }: Props) {
                             <h3>Thời gian học:<span> 150 giờ</span></h3>
                             <h3>Trình độ:<span> Dành cho người mới</span></h3>
                             <h3>Ngày bắt đầu: <span>{courseDetail?.ngayTao}</span></h3>
-                            <NavLink to={'#'} className='btn btn-primary'>Đăng ký ngay</NavLink>
+                            <NavLink to={'#'} className='btn btn-primary' onClick={handleRegister}>Đăng ký ngay</NavLink>
                             <input placeholder='Mã giảm giá'></input>
                         </div>
                     </div>

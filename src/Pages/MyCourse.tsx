@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../Redux/ConfigStore";
-import { UserProfile } from "../Redux/Reducers/UserReducer";
+import { CourseDetail, UserProfile } from "../Redux/Reducers/UserReducer";
 import { getProfileApi } from '../Redux/Reducers/UserReducer'
 import { useParams } from 'react-router-dom'
 import { CourseDetail, getCancelSubcribeApi } from "../Redux/Reducers/CourseReducer";
@@ -43,6 +43,8 @@ export default function MyCourse({}: Props) {
     const action = getCancelSubcribeApi(maKhoaHoc)
     dispatch(action)
   }
+
+  console.log(userProfile.chiTietKhoaHocGhiDanh)
 
   const renderCourse = () => {
     return userProfile.chiTietKhoaHocGhiDanh.map(
