@@ -6,6 +6,7 @@ import '../Assets/Scss/Detail.scss'
 import { DispatchType, RootState } from '../Redux/ConfigStore'
 import { CourseModel, getArrCouseApi, getCourseDetailApi } from '../Redux/Reducers/CourseReducer'
 import { getProfileApi, getRegisterCourseApi } from '../Redux/Reducers/UserReducer'
+import '../Assets/Scss/Modal.scss'
 
 type Props = {}
 
@@ -32,24 +33,7 @@ export default function Detail({ }: Props) {
     }, [params.maKhoaHoc])
 
     const openModal = () => {
-        return <div id="myModal" className="modal fade" tabIndex={-1}>
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">Modal title</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-                    </div>
-                    <div className="modal-body">
-                        <p>Modal body text goes here.<span className="badge">By <a href="https://webdevrahul007.w3spaces.com/" />Rahul jangid</span></p>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <button type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#success_tic">Open Modal</button>
     }
 
 
@@ -60,7 +44,8 @@ export default function Detail({ }: Props) {
         }
         const action = getRegisterCourseApi(detail);
         dispatch(action);
-        alert("Bạn đã đăng ký khóa học thành công")
+        // alert("Bạn đã đăng ký khóa học thành công")
+        openModal()
 
     }
 
@@ -98,6 +83,23 @@ export default function Detail({ }: Props) {
     return (
         <div className='container-fluid detail-page'>
             <h2 className='title'>Thông tin chi tiết khóa học</h2>
+            <div className="modal fade" id="exampleModal" tabIndex={-1}>
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <div className="success-checkmark">
+                                <div className="check-icon">
+                                    <span className="icon-line line-tip" />
+                                    <span className="icon-line line-long" />
+                                    <div className="icon-circle"/>
+                                    <div className="icon-fix"/>
+                                </div>
+                            </div>
+                            <h3>Bạn đã ghi danh thành công</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="row main">
                 <div className="col-7">
                     <h2>Lập trình Front End cơ bản đến nâng cao</h2>
@@ -148,7 +150,7 @@ export default function Detail({ }: Props) {
                             <h3>Thời gian học:<span> 150 giờ</span></h3>
                             <h3>Trình độ:<span> Dành cho người mới</span></h3>
                             <h3>Ngày bắt đầu: <span>{courseDetail?.ngayTao}</span></h3>
-                            <NavLink to={'#'} className='btn btn-primary' onClick={handleRegister}>Đăng ký ngay</NavLink>
+                            <NavLink to={'#'} className='btn btn-primary' onClick={handleRegister} data-bs-toggle="modal" data-bs-target="#exampleModal">Đăng ký ngay</NavLink>
                             <input placeholder='Mã giảm giá'></input>
                         </div>
                     </div>

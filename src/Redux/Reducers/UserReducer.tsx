@@ -59,30 +59,32 @@ export interface UserState {
   userProfileUpdate: UserProfileUpdate[],
   userRegister: UserRegister[],
   courseRegister: {},
+  chiTietKhoaHocGhiDanh: CourseDetail | null
 }
 
 const initialState: UserState = {
   userLogin: settings.getStorageJson(USER_LOGIN) ? settings.getStorageJson(USER_LOGIN) : [],
   userProfile: {
-    chiTietKhoaHocGhiDanh: [
-      {
-        biDanh: "",
-        danhGia: "",
-        hinhAnh: "",
-        luotXem: "",
-        maKhoaHoc: "",
-        moTa: "",
-        ngayTao: "",
-        tenKhoaHoc: ""
-      }
-    ],
-    taiKhoan: "",
-    hoTen: "",
-    soDT: "",
-    maLoaiNguoiDung: "",
-    maNhom: "",
-    email: "",
+    // chiTietKhoaHocGhiDanh: [
+    //   {
+    //     biDanh: "",
+    //     danhGia: "",
+    //     hinhAnh: "",
+    //     luotXem: "",
+    //     maKhoaHoc: "",
+    //     moTa: "",
+    //     ngayTao: "",
+    //     tenKhoaHoc: ""
+    //   }
+    // ],
+    // taiKhoan: "",
+    // hoTen: "",
+    // soDT: "",
+    // maLoaiNguoiDung: "",
+    // maNhom: "",
+    // email: "",
   },
+  chiTietKhoaHocGhiDanh: null,
   userProfileUpdate: [],
   userRegister: settings.getStorageJson(USER_REGISTER) ? settings.getStorageJson(USER_REGISTER) : [],
   courseRegister: {},

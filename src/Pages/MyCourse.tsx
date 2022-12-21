@@ -1,4 +1,4 @@
-import React, { useState, useEffect,ChangeEvent, MouseEventHandler } from "react";
+import React, { useState, useEffect, ChangeEvent, MouseEventHandler } from "react";
 import { NavLink } from "react-router-dom";
 import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import { getCancelSubcribeApi } from "../Redux/Reducers/CourseReducer";
 
 type Props = {};
 
-export default function MyCourse({}: Props) {
+export default function MyCourse({ }: Props) {
   const { userProfile } = useSelector((state: RootState) => state.UserReducer);
   const { cancelSubcribe } = useSelector((state: RootState) => state.CourseReducer);
   const dispatch: DispatchType = useDispatch();
@@ -21,31 +21,35 @@ export default function MyCourse({}: Props) {
     dispatch(action)
   }, [])
 
-  const [keyword,setKeyword] = useState('')
+  const [keyword, setKeyword] = useState('')
 
-  const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
-    const {value} = event.target
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
     setKeyword(value)
   }
 
-  const handleSubmit = (event:any) =>{
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     // if(keyword === userProfile.chiTietKhoaHocGhiDanh?.tenKhoaHoc){
-      const action = getProfileApi();
-      dispatch(action)
-    // }
-  } 
-
-  const cancelCourse = (maKhoaHoc:any) =>{
-    console.log(maKhoaHoc);
-    const action = getCancelSubcribeApi(maKhoaHoc)
+    const action = getProfileApi();
     dispatch(action)
+    // }
   }
 
-  console.log(userProfile.chiTietKhoaHocGhiDanh)
+  const cancelCourse = (maKhoaHoc: any) => {
+    console.log(maKhoaHoc);
+    const inform = {
+      "maKhoaHoc": maKhoaHoc,
+      "taiKhoan": userProfile.taiKhoan,
+    }
+    const action = getCancelSubcribeApi(inform)
+    dispatch(action)
+    window.location.reload()
+  }
+
 
   const renderCourse = () => {
-    return userProfile.chiTietKhoaHocGhiDanh.map(
+    return userProfile.chiTietKhoaHocGhiDanh?.map(
       (course: CourseDetail, index: number) => {
         return (
           <div className="container course" key={index}>
@@ -59,8 +63,8 @@ export default function MyCourse({}: Props) {
               </div>
               <div className="col-8">
                 <h5>{course.tenKhoaHoc}</h5>
-                <p>{course.moTa}</p>
-                <button className="btn btn-danger" type="button">Hủy</button>
+                <p>{course.moTa.length > 200 ? course.moTa.substring(0, 50) + '...' : course.moTa}</p>
+                <button type="button" className="btn btn-danger" onClick={() => cancelCourse(course.maKhoaHoc)}>Hủy</button>
               </div>
             </div>
           </div>

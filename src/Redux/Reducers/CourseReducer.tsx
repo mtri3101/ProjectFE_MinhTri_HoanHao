@@ -144,9 +144,9 @@ export const getCourseDetailApi = (maKhoaHoc: string) => {
     }
 }
 
-export const getCancelSubcribeApi = (maKhoaHoc:any) => {
+export const getCancelSubcribeApi = (inform:any) => {
     return async (dispatch: DispatchType) => {
-        const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh',maKhoaHoc);
+        const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh',inform);
         const action = cancelSubcribeAction(result.data);
         dispatch(action)
     }
