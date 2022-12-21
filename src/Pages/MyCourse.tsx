@@ -1,4 +1,4 @@
-import React, { useState, useEffect,ChangeEvent, MouseEventHandler } from "react";
+import React, { useState, useEffect, ChangeEvent, MouseEventHandler } from "react";
 import { NavLink } from "react-router-dom";
 import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import Search from "./Search";
 
 type Props = {};
 
-export default function MyCourse({}: Props) {
+export default function MyCourse({ }: Props) {
   const { userProfile } = useSelector((state: RootState) => state.UserReducer);
   const { cancelSubcribe } = useSelector((state: RootState) => state.CourseReducer);
   const dispatch: DispatchType = useDispatch();
@@ -24,41 +24,38 @@ export default function MyCourse({}: Props) {
   }, [])
 
   const [keyword,setKeyword] = useState('')
-  // const search = userProfile.chiTietKhoaHocGhiDanh.filter((course: CourseDetail) => course.tenKhoaHoc.toLocaleLowerCase().includes(keyword.toLowerCase()));
-  // console.log(search);
+
   const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target
     setKeyword(value)
   }
 
-  const handleSubmit = (event:any) =>{
+  const handleSubmit = (event: any) => {
     event.preventDefault();
-    for(let i = 0; i<userProfile.chiTietKhoaHocGhiDanh.length; i++){
-      if(keyword === userProfile.chiTietKhoaHocGhiDanh[i].tenKhoaHoc){
-        const search = userProfile.chiTietKhoaHocGhiDanh.filter((course: CourseDetail) => course.tenKhoaHoc.toLocaleLowerCase().includes(keyword.toLowerCase()))
-        console.log(search)
-      }
-    }
-    const action = getSearchProfileApi(keyword);
-    dispatch(action)
+    console.log(event);
+    // for(let i = 0; i<userProfile.chiTietKhoaHocGhiDanh.length; i++){
+    //   if(keyword === userProfile.chiTietKhoaHocGhiDanh[i].tenKhoaHoc){
+    //     userProfile.chiTietKhoaHocGhiDanh.splice(i, 1)
+    //     alert("123")
+    //     console.log(keyword)
+    //   }
+    // }
   } 
 
-  const cancelCourse = (maKhoaHoc:any) =>{
-    const cancel = {
+  const cancelCourse = (maKhoaHoc: any) => {
+    console.log(maKhoaHoc);
+    const inform = {
       "maKhoaHoc": maKhoaHoc,
       "taiKhoan": userProfile.taiKhoan,
     }
-    const action = getCancelSubcribeApi(cancel);
+    const action = getCancelSubcribeApi(inform)
     dispatch(action)
-    for(let i=0; i<userProfile.chiTietKhoaHocGhiDanh.length; i++){
-      if(userProfile.chiTietKhoaHocGhiDanh[i].maKhoaHoc === maKhoaHoc){
-        userProfile.chiTietKhoaHocGhiDanh.splice(i, 1)
-      }
-    }
+    window.location.reload()
   }
-  
+
+
   const renderCourse = () => {
-    return userProfile.chiTietKhoaHocGhiDanh.map(
+    return userProfile.chiTietKhoaHocGhiDanh?.map(
       (course: CourseDetail, index: number) => {
         return (
           <div className="container course" key={index}>
@@ -72,8 +69,8 @@ export default function MyCourse({}: Props) {
               </div>
               <div className="col-8">
                 <h5>{course.tenKhoaHoc}</h5>
-                <p>{course.moTa.length > 400 ? course.moTa.substring(0, 300) + '...' : course.moTa}</p>
-                <NavLink to={"#"} className="btn btn-danger" onClick={() => cancelCourse(course.maKhoaHoc)}>Hủy</NavLink>
+                <p>{course.moTa.length > 200 ? course.moTa.substring(0, 50) + '...' : course.moTa}</p>
+                <button type="button" className="btn btn-danger" onClick={() => cancelCourse(course.maKhoaHoc)}>Hủy</button>
               </div>
             </div>
           </div>

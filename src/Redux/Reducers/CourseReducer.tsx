@@ -92,13 +92,13 @@ const CourseReducer = createSlice({
         setCourseDetailAction: (state: CourseState, action: PayloadAction<CourseDetail>) => {
             state.courseDetail = action.payload;
         },
-        // cancelSubcribeAction: (state: CourseState, action: PayloadAction<CancelSubcribe[]>) =>{
-        //     state.cancelSubcribe = action.payload;
-        // }
+        cancelSubcribeAction: (state: CourseState, action: PayloadAction<CancelSubcribe[]>) =>{
+            state.cancelSubcribe = action.payload;
+        }
     }
 });
 
-export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction } = CourseReducer.actions
+export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction,cancelSubcribeAction } = CourseReducer.actions
 
 export default CourseReducer.reducer
 
@@ -144,10 +144,10 @@ export const getCourseDetailApi = (maKhoaHoc: string) => {
     }
 }
 
-// export const getCancelSubcribeApi = (maKhoaHoc:string) => {
-//     return async (dispatch: DispatchType) => {
-//         const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', maKhoaHoc);
-//         const action = cancelSubcribeAction(result.data);
-//         dispatch(action)
-//     }
-// }
+export const getCancelSubcribeApi = (inform:any) => {
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh',inform);
+        const action = cancelSubcribeAction(result.data);
+        dispatch(action)
+    }
+}
