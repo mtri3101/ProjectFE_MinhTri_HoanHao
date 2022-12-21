@@ -98,7 +98,7 @@ const CourseReducer = createSlice({
     }
 });
 
-export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction, cancelSubcribeAction } = CourseReducer.actions
+export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction,cancelSubcribeAction } = CourseReducer.actions
 
 export default CourseReducer.reducer
 

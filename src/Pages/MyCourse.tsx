@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../Redux/ConfigStore";
-import { CourseDetail, UserProfile } from "../Redux/Reducers/UserReducer";
+import { CourseDetail, getCancelSubcribeApi } from "../Redux/Reducers/UserReducer";
 import { getProfileApi } from '../Redux/Reducers/UserReducer'
 import { useParams } from 'react-router-dom'
-import { getCancelSubcribeApi } from "../Redux/Reducers/CourseReducer";
+
 
 type Props = {};
 
@@ -110,7 +110,7 @@ export default function MyCourse({ }: Props) {
                     name="search"
                     onChange={handleChange}
                   />
-                  <NavLink to={`/myCourse/${keyword}`} className="btn btn-outline-success" type="submit">Tìm kiếm</NavLink>
+                  <NavLink to={"#"} className="btn btn-outline-success" onClick={() => handleSubmit}>Tìm kiếm</NavLink>
                 </form>
               </div>
             </div>
