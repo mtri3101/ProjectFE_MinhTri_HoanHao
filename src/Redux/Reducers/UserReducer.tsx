@@ -104,6 +104,9 @@ const UserReducer = createSlice({
     getProfileAction: (state: UserState, action: PayloadAction<UserProfile[]>) => {
       state.userProfile = action.payload;
     },
+    getSearchProfileAction: (state: UserState, action: PayloadAction<UserProfile[]>) => {
+      state.userProfile = action.payload;
+    },
     getProfileUpdateAction: (state, action) => {
       state.userProfileUpdate = action.payload;
     },
@@ -119,7 +122,7 @@ const UserReducer = createSlice({
   }
 });
 
-export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction } = UserReducer.actions
+export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, getSearchProfileAction } = UserReducer.actions
 
 export default UserReducer.reducer
 
@@ -142,8 +145,17 @@ export const loginApi = (userLogin: any) => {
 
 export const getProfileApi = () => {
   return async (dispatch: DispatchType) => {
-    const result = await http.post('/api/QuanLyNguoiDung/ThongTinNguoiDung',);
+    const result = await http.post('/api/QuanLyNguoiDung/ThongTinNguoiDung');
     const action = getProfileAction(result.data);
+    dispatch(action);
+
+  }
+}
+
+export const getSearchProfileApi = (keyword:string) => {
+  return async (dispatch: DispatchType) => {
+    const result = await http.post('/api/QuanLyNguoiDung/ThongTinNguoiDung', keyword);
+    const action = getSearchProfileAction(result.data);
     dispatch(action);
 
   }
