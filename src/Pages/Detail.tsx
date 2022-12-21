@@ -5,7 +5,7 @@ import { NavLink, useParams } from 'react-router-dom'
 import '../Assets/Scss/Detail.scss'
 import { DispatchType, RootState } from '../Redux/ConfigStore'
 import { CourseModel, getArrCouseApi, getCourseDetailApi } from '../Redux/Reducers/CourseReducer'
-import { getProfileApi } from '../Redux/Reducers/UserReducer'
+import { getProfileApi, getRegisterCourseApi } from '../Redux/Reducers/UserReducer'
 
 type Props = {}
 
@@ -58,9 +58,9 @@ export default function Detail({ }: Props) {
             "maKhoaHoc": params.maKhoaHoc,
             "taiKhoan": userProfile.taiKhoan,
         }
-        // const action = getRegisterCourseApi(detail);
-        // dispatch(action);
-        // alert("Bạn đã đăng ký khóa học thành công")
+        const action = getRegisterCourseApi(detail);
+        dispatch(action);
+        alert("Bạn đã đăng ký khóa học thành công")
 
     }
 

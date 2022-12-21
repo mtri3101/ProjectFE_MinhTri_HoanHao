@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../Redux/ConfigStore";
-import { CourseDetail, UserProfile } from "../Redux/Reducers/UserReducer";
+import { CourseDetail, getCancelSubcribeApi } from "../Redux/Reducers/UserReducer";
 import { getProfileApi } from '../Redux/Reducers/UserReducer'
 import { useParams } from 'react-router-dom'
-import { CourseDetail, getCancelSubcribeApi } from "../Redux/Reducers/CourseReducer";
+
 
 type Props = {};
 
@@ -23,29 +23,37 @@ export default function MyCourse({}: Props) {
 
   const [keyword,setKeyword] = useState('')
 
-  
   const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target
     setKeyword(value)
   }
-  
 
   const handleSubmit = (event:any) =>{
     event.preventDefault();
-    if(keyword === userProfile.chiTietKhoaHocGhiDanh.tenKhoaHoc){
-      const action = getProfileApi();
-      dispatch(action)
-    }
+    console.log(event);
+    // for(let i = 0; i<userProfile.chiTietKhoaHocGhiDanh.length; i++){
+    //   if(keyword === userProfile.chiTietKhoaHocGhiDanh[i].tenKhoaHoc){
+    //     userProfile.chiTietKhoaHocGhiDanh.splice(i, 1)
+    //     alert("123")
+    //     console.log(keyword)
+    //   }
+    // }
   } 
 
   const cancelCourse = (maKhoaHoc:any) =>{
-    console.log(maKhoaHoc);
-    const action = getCancelSubcribeApi(maKhoaHoc)
+    const cancel = {
+      "maKhoaHoc": maKhoaHoc,
+      "taiKhoan": userProfile.taiKhoan,
+    }
+    const action = getCancelSubcribeApi(cancel);
     dispatch(action)
+    for(let i=0; i<userProfile.chiTietKhoaHocGhiDanh.length; i++){
+      if(userProfile.chiTietKhoaHocGhiDanh[i].maKhoaHoc === maKhoaHoc){
+        userProfile.chiTietKhoaHocGhiDanh.splice(i, 1)
+      }
+    }
   }
-
-  console.log(userProfile.chiTietKhoaHocGhiDanh)
-
+  
   const renderCourse = () => {
     return userProfile.chiTietKhoaHocGhiDanh.map(
       (course: CourseDetail, index: number) => {
@@ -61,8 +69,8 @@ export default function MyCourse({}: Props) {
               </div>
               <div className="col-8">
                 <h5>{course.tenKhoaHoc}</h5>
-                <p>{course.moTa}</p>
-                <button className="btn btn-danger" type="button">Hủy</button>
+                <p>{course.moTa.length > 400 ? course.moTa.substring(0, 300) + '...' : course.moTa}</p>
+                <NavLink to={"#"} className="btn btn-danger" onClick={() => cancelCourse(course.maKhoaHoc)}>Hủy</NavLink>
               </div>
             </div>
           </div>
@@ -108,7 +116,7 @@ export default function MyCourse({}: Props) {
                     name="search"
                     onChange={handleChange}
                   />
-                  <NavLink to={"#"} className="btn btn-outline-success">Tìm kiếm</NavLink>
+                  <NavLink to={"#"} className="btn btn-outline-success" onClick={() => handleSubmit}>Tìm kiếm</NavLink>
                 </form>
               </div>
             </div>
