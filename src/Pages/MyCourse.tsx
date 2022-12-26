@@ -4,72 +4,81 @@ import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../Redux/ConfigStore";
 import { CourseDetail, getCancelSubcribeApi } from "../Redux/Reducers/UserReducer";
-import { getProfileApi, getSearchProfileApi } from '../Redux/Reducers/UserReducer'
-import { useParams } from 'react-router-dom'
-import { useFormik } from "formik";
-import * as yup from "yup";
-import Search from "./Search";
+import { getProfileApi,  } from '../Redux/Reducers/UserReducer'
 
 type Props = {};
 
 export default function MyCourse({ }: Props) {
   const { userProfile } = useSelector((state: RootState) => state.UserReducer);
-  const { cancelSubcribe } = useSelector((state: RootState) => state.CourseReducer);
   const dispatch: DispatchType = useDispatch();
-  const params: any = useParams()
+  const [keyword,setKeyword] = useState('')
+  const [searchCourse,setSearchCourse] = useState([])
 
   useEffect(() => {
     const action = getProfileApi();
     dispatch(action)
   }, [])
 
-  const [keyword,setKeyword] = useState('')
-
   const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target
     setKeyword(value)
   }
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log(event);
-    // for(let i = 0; i<userProfile.chiTietKhoaHocGhiDanh.length; i++){
-    //   if(keyword === userProfile.chiTietKhoaHocGhiDanh[i].tenKhoaHoc){
-    //     userProfile.chiTietKhoaHocGhiDanh.splice(i, 1)
-    //     alert("123")
-    //     console.log(keyword)
-    //   }
-    // }
-  } 
+  useEffect(() => {
+    setSearchCourse(userProfile.chiTietKhoaHocGhiDanh)
+  }, [userProfile.chiTietKhoaHocGhiDanh]);
 
-  const cancelCourse = (maKhoaHoc: any) => {
-    console.log(maKhoaHoc);
+  useEffect(() => {
+    const search = userProfile.chiTietKhoaHocGhiDanh?.filter((course: CourseDetail) => course.tenKhoaHoc.toLowerCase().includes(keyword.toLowerCase()));
+    console.log(keyword)
+    if(keyword == ""){
+      setSearchCourse(userProfile.chiTietKhoaHocGhiDanh)
+    }else{
+      setSearchCourse(search)
+    }
+  }, [keyword])
+
+  const cancelCourse = async (maKhoaHoc: any) => {
     const inform = {
       "maKhoaHoc": maKhoaHoc,
       "taiKhoan": userProfile.taiKhoan,
     }
     const action = getCancelSubcribeApi(inform)
-    dispatch(action)
+    await dispatch(action)
     window.location.reload()
   }
 
-
   const renderCourse = () => {
-    return userProfile.chiTietKhoaHocGhiDanh?.map(
+    return searchCourse?.map(
       (course: CourseDetail, index: number) => {
         return (
           <div className="container course" key={index}>
             <div className="row row-course">
-              <div className="col-2">
+              <div className="col-3">
                 <img
                   src={course.hinhAnh}
-                  style={{ width: 150, height: 120 }}
+                  style={{ width: 220, height: 180, borderRadius: 20 }}
                   alt=""
                 />
               </div>
               <div className="col-8">
                 <h5>{course.tenKhoaHoc}</h5>
                 <p>{course.moTa.length > 200 ? course.moTa.substring(0, 50) + '...' : course.moTa}</p>
+                <p className="date my-2">
+                  <i className="far fa-clock iconOclock me-1 text-warning"></i>10:20:40
+                  <i className="far fa-calendar iconCalendar ms-3 me-1 text-danger"></i>22/12/2022
+                </p>
+                <p className="danhGia text-warning">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                </p>
+                <div className="user my-2">
+                  <img src="https://thuthuatnhanh.com/wp-content/uploads/2020/02/anh-ngau-chat-260x390.jpg" style={{ width: 40, height: 40, borderRadius: 20 }} alt="" />
+                  <span className="mx-2">{userProfile.hoTen}</span>
+                </div>
                 <button type="button" className="btn btn-danger" onClick={() => cancelCourse(course.maKhoaHoc)}>Hủy</button>
               </div>
             </div>
@@ -108,7 +117,7 @@ export default function MyCourse({ }: Props) {
             <div className="thongTinKhoaHoc">
               <div className="timKhoaHoc">
                 <h6>Khóa học của tôi</h6>
-                <form action="" onSubmit={handleSubmit}>
+                <form action="">
                   <input
                     onChange={handleChange}
                     type="text"
@@ -116,7 +125,6 @@ export default function MyCourse({ }: Props) {
                     placeholder="Tìm kiếm..."
                     name="search"
                   />
-                  <button type="submit" className="btn btn-outline-success">Tìm kiếm</button>
                 </form>
               </div>
             </div>

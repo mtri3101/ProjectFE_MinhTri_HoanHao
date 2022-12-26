@@ -13,6 +13,8 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Profile from './Pages/Profile';
 import MyCourse from './Pages/MyCourse';
+import AddUser from './Pages/AddUser';
+import UserManagement from './Pages/UserManagement';
 
 
 
@@ -42,6 +44,10 @@ root.render(
           <Route path='register' element={<Register />}></Route>
           <Route path='profile' element={<Profile />}></Route>
           <Route path='myCourse' element={<MyCourse />}></Route>
+          <Route path='userManagement' element={<UserManagement />}></Route>
+          <Route path='userManagement'>
+            <Route path=':addUser' element={<AddUser/>}></Route>
+          </Route>
           <Route path='*' element={<Navigate to={""} />}></Route>
         </Route>
       </Routes>

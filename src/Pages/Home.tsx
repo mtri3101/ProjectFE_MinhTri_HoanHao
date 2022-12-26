@@ -13,7 +13,6 @@ export default function Home({ }: Props) {
 
   const { arrCourse } = useSelector((state: RootState) => state.CourseReducer)
   const dispatch: DispatchType = useDispatch()
-
   const reveal = () => {
     let reveals = document.querySelectorAll(".reveal")
     for (let i = 0; i < reveals.length; i++) {
@@ -60,7 +59,6 @@ export default function Home({ }: Props) {
               </div>
             </div>
             <NavLink to={`/chitiet/${course.maKhoaHoc}`} >Xem chi tiết</NavLink>
-
           </div>
           <div className="outer-circle">
             <div className="inner-circle"></div>

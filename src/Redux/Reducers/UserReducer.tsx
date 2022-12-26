@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DispatchType } from '../ConfigStore';
 import { http, USER_LOGIN, settings, ACCESSTOKEN, USER_REGISTER } from '../../Utils/Config';
+import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 export interface UserLogin {
   taiKhoan: string;
@@ -56,6 +57,11 @@ export interface CancelSubcribe {
   maKhoaHoc: string;
   taiKhoan: string;
 }
+export interface UnSubcribeUser {
+  taiKhoan: string;
+  hoTen:    string;
+  biDanh:   string;
+}
 
 export interface UserState {
   userLogin: UserLogin[],
@@ -63,37 +69,20 @@ export interface UserState {
   userProfileUpdate: UserProfileUpdate[],
   userRegister: UserRegister[],
   courseRegister: {},
-  chiTietKhoaHocGhiDanh: CourseDetail | null
-  cancelSubcribe: CancelSubcribe[]
+  chiTietKhoaHocGhiDanh: CourseDetail | null,
+  cancelSubcribe: CancelSubcribe[],
+  unSubcribeUser: UnSubcribeUser[],
 }
 
 const initialState: UserState = {
   userLogin: settings.getStorageJson(USER_LOGIN) ? settings.getStorageJson(USER_LOGIN) : [],
-  userProfile: {
-    // chiTietKhoaHocGhiDanh: [
-    //   {
-    //     biDanh: "",
-    //     danhGia: "",
-    //     hinhAnh: "",
-    //     luotXem: "",
-    //     maKhoaHoc: "",
-    //     moTa: "",
-    //     ngayTao: "",
-    //     tenKhoaHoc: ""
-    //   }
-    // ],
-    // taiKhoan: "",
-    // hoTen: "",
-    // soDT: "",
-    // maLoaiNguoiDung: "",
-    // maNhom: "",
-    // email: "",
-  },
+  userProfile: {},
   chiTietKhoaHocGhiDanh: null,
   userProfileUpdate: [],
   userRegister: settings.getStorageJson(USER_REGISTER) ? settings.getStorageJson(USER_REGISTER) : [],
   courseRegister: {},
-  cancelSubcribe: []
+  cancelSubcribe: [],
+  unSubcribeUser: [],
 }
 
 const UserReducer = createSlice({
@@ -104,9 +93,6 @@ const UserReducer = createSlice({
       state.userLogin = action.payload;
     },
     getProfileAction: (state: UserState, action: PayloadAction<UserProfile[]>) => {
-      state.userProfile = action.payload;
-    },
-    getSearchProfileAction: (state: UserState, action: PayloadAction<UserProfile[]>) => {
       state.userProfile = action.payload;
     },
     getProfileUpdateAction: (state, action) => {
@@ -120,11 +106,14 @@ const UserReducer = createSlice({
     },
     cancelSubcribeAction: (state: UserState, action: PayloadAction<CancelSubcribe[]>) =>{
       state.cancelSubcribe = action.payload
-  }
+    },
+    unSubcribeAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) =>{
+      state.unSubcribeUser = action.payload
+    },
   }
 });
 
-export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, getSearchProfileAction } = UserReducer.actions
+export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction } = UserReducer.actions
 
 export default UserReducer.reducer
 
@@ -149,15 +138,6 @@ export const getProfileApi = () => {
   return async (dispatch: DispatchType) => {
     const result = await http.post('/api/QuanLyNguoiDung/ThongTinNguoiDung');
     const action = getProfileAction(result.data);
-    dispatch(action);
-
-  }
-}
-
-export const getSearchProfileApi = (keyword:string) => {
-  return async (dispatch: DispatchType) => {
-    const result = await http.post('/api/QuanLyNguoiDung/ThongTinNguoiDung', keyword);
-    const action = getSearchProfileAction(result.data);
     dispatch(action);
 
   }
@@ -193,10 +173,17 @@ export const getRegisterCourseApi = (detail:{}) =>{
   }
 }
 
-export const getCancelSubcribeApi = (maKhoaHoc:any) => {
+export const getCancelSubcribeApi = (inform:{}) => {
   return async (dispatch: DispatchType) => {
-      const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', maKhoaHoc);
+      const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', inform);
       const action = cancelSubcribeAction(result.data);
+      dispatch(action)
+  }
+}
+export const getUnSubcribeApi = () => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachNguoiDungChuaGhiDanh');
+      const action = unSubcribeAction(result.data);
       dispatch(action)
   }
 }
