@@ -28,7 +28,7 @@ export default function Home({ }: Props) {
     }
   }
 
-  window.addEventListener("scroll",reveal);
+  window.addEventListener("scroll", reveal);
   reveal()
 
   useEffect(() => {
@@ -45,12 +45,12 @@ export default function Home({ }: Props) {
 
   const renderCourse = (): JSX.Element[] => {
     return homeArrCourse.map((course: CourseModel, index: number) => {
-      return <div className="col-3" key={index}>
+      return <div className="col-12 col-md-6 col-xxl-3 item" key={index}>
         <div className="card">
           <img src={course.hinhAnh} alt="..." className='w-100' />
           <div className="card-body">
             <h1>{course.tenKhoaHoc.replaceAll("-", " ")}</h1>
-            <p>{course.moTa.length > 200 ? course.moTa.substring(0, 50) + '...' : course.moTa}</p>
+            <p>{course.moTa.length > 200 ? course.moTa.substring(0, 100) + '...' : course.moTa || course.moTa.length < 10 ? `  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae natus voluptatum voluptates voluptate doloribus iste voluptatem` : course.moTa}</p>
             <div className="row">
               <div className="col-6 calendar">
                 <i className="fa-solid fa-calendar"><span>{course.ngayTao}</span></i>
@@ -100,7 +100,7 @@ export default function Home({ }: Props) {
         <div className="rec"></div>
         <div className="main">
           <div className="content">
-            <h2>Welcome E-learning</h2>
+            <h2>Welcome to E-learning</h2>
             <p>E-learning là trung tâm đào tạo lập trình trực tuyến hàng đầu hiện nay, chuyên cung cấp các lập trình viên cho các công ty công nghệ và được nhiều nơi tin tưởng. E-learning đã có hơn 10000 học viên ghi danh từ khắp nơi trên đất nước, với hình thức online và qua các video record. Chương trình được thiết kế phù hợp cho các bạn muốn theo ngành lập trình từ những kiến thức cơ bản nhất cho đến những dự án thực tế. </p>
             <a href="#new-courses">Tìm hiểu ngay</a>
           </div>
@@ -110,7 +110,7 @@ export default function Home({ }: Props) {
       <div className="person reveal">
         <h2>Hãy đến với E-learning nếu như</h2>
         <div className="row">
-          <div className="col-4">
+          <div className="col-12 col-lg-4 item">
             <div className="card">
               <img src="img/home/stress.png" alt="" />
               <h3>Bạn chưa có định hướng</h3>
@@ -118,7 +118,7 @@ export default function Home({ }: Props) {
               <i className="fa-solid fa-arrow-right"></i>
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4 item">
             <div className="card  dark-bg">
               <img src="img/home/money-bag.png" alt="" />
               <h3>Bạn muốn tăng thu nhập</h3>
@@ -126,7 +126,7 @@ export default function Home({ }: Props) {
               <i className="fa-solid fa-arrow-right mid-arrow"></i>
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-12 col-lg-4 item">
             <div className="card">
               <img src="img/home/grow.png" alt="" />
               <h3>Bạn muốn phát triển bản thân</h3>
@@ -142,45 +142,44 @@ export default function Home({ }: Props) {
             <p>Vì sao bạn nên chọn E-learning ?</p>
           </div>
           <div className="col-9">
-            <div className="row top">
-              <div className="col-4">
+            <div className="row">
+              <div className="col-12 col-xl-6 col-xxl-4 item">
                 <div className="card light-card">
                   <h2>01</h2>
                   <h3>Dự án thực tế</h3>
                   <p>Thay vì dạy lý thuyết khó hiểu, E-learning tập trung vào các dự án mà các công ty đang cần, giúp học viên không cảm thấy khó khăn khi vừa bước chân vào các doanh nghiệp.</p>
                 </div>
               </div>
-              <div className="col-4">
+              <div className="col-12 col-xl-6 col-xxl-4 item">
                 <div className="card">
                   <h2>02</h2>
+                  <h3>Nâng cao teamwork</h3>
+                  <p>Đối với các project, các học viên được làm theo nhóm để nâng cao khả năng teamwork, vì vậy các bạn luôn biết cách làm việc trong môi trường doanh nghiệp.</p>
+
+                </div>
+              </div>
+              <div className="col-12 col-xl-6 col-xxl-4 item">
+                <div className="card light-card">
+                  <h2>03</h2>
                   <h3>Lộ trình rõ ràng</h3>
                   <p>Lộ trình học được biên soạn bởi những chuyên gia về lập trình, giúp các học viên đi từ dễ đến khó mà không cảm thấy hoang mang. Bất kỳ ai cũng có thể tiếp cận đến với ngành lập trình dù chưa có kiến thức cơ bản.</p>
                 </div>
               </div>
-              <div className="col-4">
-                <div className="card light-card">
-                  <h2>03</h2>
+              <div className="col-12 col-xl-6 col-xxl-4 item">
+                <div className="card">
+                  <h2>04</h2>
                   <h3>Giảng viên chuyên nghiệp</h3>
                   <p>Đội ngũ giảng viên tại E-learning đều là những người đang làm việc tại các công ty lớn, có kinh nghiệm nhiều năm trong việc giảng dạy và luôn nắm bắt kịp thời những xu hướng mới nhất.</p>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-4">
-                <div className="card">
-                  <h2>04</h2>
+              <div className="col-12 col-xl-6 col-xxl-4 item">
+                <div className="card light-card">
+                  <h2>05</h2>
                   <h3>Đội ngũ hỗ trợ</h3>
                   <p>Trong quá trình học, khi gặp khó khăn các học viên có thể liên hệ các mentor trong lớp để được giải đáp thắc mắc cũng như nâng cao khả năng giải quyết vấn đề.</p>
                 </div>
               </div>
-              <div className="col-4">
-                <div className="card light-card">
-                  <h2>05</h2>
-                  <h3>Nâng cao teamwork</h3>
-                  <p>Đối với các project, các học viên được làm theo nhóm để nâng cao khả năng teamwork, vì vậy các bạn luôn biết cách làm việc trong môi trường doanh nghiệp.</p>
-                </div>
-              </div>
-              <div className="col-4">
+              <div className="col-12 col-xl-6 col-xxl-4 item">
                 <div className="card">
                   <h2>06</h2>
                   <h3>Thời gian linh hoạt</h3>
@@ -188,6 +187,7 @@ export default function Home({ }: Props) {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 

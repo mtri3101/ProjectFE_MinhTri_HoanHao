@@ -15,41 +15,59 @@ export default function MyCourse({ }: Props) {
   const { cancelSubcribe } = useSelector((state: RootState) => state.CourseReducer);
   const dispatch: DispatchType = useDispatch();
   const params: any = useParams()
+  const [keyword, setKeyword] = useState('')
+  const [searchCourse, setSearchCourse] = useState([])
 
   useEffect(() => {
     const action = getProfileApi();
     dispatch(action)
   }, [])
 
-  const [keyword, setKeyword] = useState('')
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
+    const { value } = event.target;
     setKeyword(value)
   }
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    // if(keyword === userProfile.chiTietKhoaHocGhiDanh?.tenKhoaHoc){
-    const action = getProfileApi();
-    dispatch(action)
-    // }
-  }
+  useEffect(() => {
+    setSearchCourse(userProfile.chiTietKhoaHocGhiDanh)
+  }, [userProfile.chiTietKhoaHocGhiDanh]);
 
-  const cancelCourse = (maKhoaHoc: any) => {
-    console.log(maKhoaHoc);
+  useEffect(() => {
+    const result = userProfile.chiTietKhoaHocGhiDanh?.filter((course: CourseDetail) => course.tenKhoaHoc.toLowerCase().includes(keyword.toLowerCase()))
+    if (keyword == '') {
+      setSearchCourse(userProfile.chiTietKhoaHocGhiDanh)
+    } else {
+      setSearchCourse(result)
+    }
+  }, [keyword])
+
+  const cancelCourse = async (maKhoaHoc: any) => {
     const inform = {
       "maKhoaHoc": maKhoaHoc,
       "taiKhoan": userProfile.taiKhoan,
     }
     const action = getCancelSubcribeApi(inform)
-    dispatch(action)
+    await dispatch(action)
     window.location.reload()
   }
 
 
+  // const handleSubmit = (event: any) => {
+  //   event.preventDefault();
+  //   const search = userProfile.chiTietKhoaHocGhiDanh.filter((course: CourseDetail) => course.tenKhoaHoc.toLowerCase().includes(keyword.toLowerCase()))
+  //   // const action = getProfileApi();
+  //   // dispatch(action)
+  //   // }
+  //   setSearchCourse(search)
+  //   console.log(searchCourse)
+  // }
+
+
+ 
+
+
   const renderCourse = () => {
-    return userProfile.chiTietKhoaHocGhiDanh?.map(
+    return searchCourse?.map(
       (course: CourseDetail, index: number) => {
         return (
           <div className="container course" key={index}>
@@ -64,7 +82,7 @@ export default function MyCourse({ }: Props) {
               <div className="col-8">
                 <h5>{course.tenKhoaHoc}</h5>
                 <p>{course.moTa.length > 200 ? course.moTa.substring(0, 50) + '...' : course.moTa}</p>
-                <button type="button" className="btn btn-danger" onClick={() => cancelCourse(course.maKhoaHoc)}>Hủy</button>
+                <button type="button" className="btn btn-danger" onClick={() => cancelCourse(course.maKhoaHoc)}>Hủy </button>
               </div>
             </div>
           </div>
@@ -102,7 +120,7 @@ export default function MyCourse({ }: Props) {
             <div className="thongTinKhoaHoc">
               <div className="timKhoaHoc">
                 <h6>Khóa học của tôi</h6>
-                <form action="" onSubmit={handleSubmit}>
+                <form action="" >
                   <input
                     type="text"
                     className="searchForm"
@@ -110,7 +128,7 @@ export default function MyCourse({ }: Props) {
                     name="search"
                     onChange={handleChange}
                   />
-                  <NavLink to={"#"} className="btn btn-outline-success" onClick={() => handleSubmit}>Tìm kiếm</NavLink>
+                  <NavLink to={"#"} className="btn btn-outline-success" >Tìm kiếm </NavLink>
                 </form>
               </div>
             </div>

@@ -1,9 +1,16 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { act } from '@testing-library/react';
 import { http } from '../../Utils/Config';
 import { DispatchType } from '../ConfigStore';
 
 //type Course
+
+export interface Pagination {
+    currentPage: number;
+    count: number;
+    totalPages: number;
+    totalCount: number;
+    items: CourseModel[];
+}
 
 export interface CourseModel {
     maKhoaHoc: string;
@@ -62,15 +69,23 @@ export interface CourseState {
     courseCategory: CourseCategoryModel[],
     listCourseCatalog: CourseModel[],
     courseDetail: CourseDetail | null,
-    cancelSubcribe: CancelSubcribe[]
+    cancelSubcribe: CancelSubcribe[],
+    paginateCourse: Pagination,
 }
 
-const initialState:CourseState = {
+const initialState: CourseState = {
     arrCourse: [],
     courseCategory: [],
     listCourseCatalog: [],
     courseDetail: null,
-    cancelSubcribe: []
+    cancelSubcribe: [],
+    paginateCourse: {
+        currentPage: 0,
+        count: 0,
+        totalPages: 0,
+        totalCount: 0,
+        items: [],
+    },
 }
 
 const CourseReducer = createSlice({
@@ -92,13 +107,16 @@ const CourseReducer = createSlice({
         setCourseDetailAction: (state: CourseState, action: PayloadAction<CourseDetail>) => {
             state.courseDetail = action.payload;
         },
-        cancelSubcribeAction: (state: CourseState, action: PayloadAction<CancelSubcribe[]>) =>{
+        cancelSubcribeAction: (state: CourseState, action: PayloadAction<CancelSubcribe[]>) => {
             state.cancelSubcribe = action.payload;
-        }
+        },
+        getCoursePaginationAction: (state: CourseState, action: PayloadAction<Pagination>) => {
+            state.paginateCourse = action.payload
+        },
     }
 });
 
-export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction,cancelSubcribeAction } = CourseReducer.actions
+export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction, cancelSubcribeAction, getCoursePaginationAction } = CourseReducer.actions
 
 export default CourseReducer.reducer
 
@@ -144,10 +162,20 @@ export const getCourseDetailApi = (maKhoaHoc: string) => {
     }
 }
 
-export const getCancelSubcribeApi = (inform:any) => {
+export const getCancelSubcribeApi = (inform: any) => {
     return async (dispatch: DispatchType) => {
-        const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh',inform);
+        const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', inform);
         const action = cancelSubcribeAction(result.data);
+        dispatch(action)
+    }
+}
+
+export const getCoursePaginationApi = (tenKhoaHoc: string, page: number) => {
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.get(`/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?tenKhoaHoc=${tenKhoaHoc}&page=${page}&pageSize=8&MaNhom=GP01`);
+        console.log(result)
+        let paginateCourse: Pagination = result.data
+        const action: PayloadAction<Pagination> = getCoursePaginationAction(paginateCourse)
         dispatch(action)
     }
 }
