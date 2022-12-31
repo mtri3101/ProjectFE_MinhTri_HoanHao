@@ -161,7 +161,7 @@ export default function Detail({ }: Props) {
                             <img src="/img/es6.png" alt="es6_image" />
                             <img src="/img/sass.png" alt="sass_image" />
                             <img src="/img/api.png" alt="api_image" />
-                            <img src="/img/react.svg.png" alt="react_image" />
+                            <img src="/img/react.png" alt="react_image" />
                             <img src="/img/typescript.png" alt="typescript_image" />
                         </div>
                     </div>

@@ -98,7 +98,7 @@ export default function Profile({}: Props ) {
               </div>
               <div className="form-group doiTuong">
                 <p>
-                  Đối tượng:<span>{userProfile.maLoaiNguoiDung}</span>
+                  Đối tượng:<span>{userProfile.maLoaiNguoiDung === 'GV'? <NavLink to='/admin' className='ms-2'>Đi đến trang quản lý</NavLink> : userProfile.maLoaiNguoiDung }</span>
                 </p>
               </div>
               <button

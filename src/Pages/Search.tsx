@@ -76,7 +76,7 @@ export default function Search({ }: Props) {
                     <img src={course?.hinhAnh} onError={replaceImage} alt="..." />
                     <div className="card-body">
                         <h1>{course?.biDanh}</h1>
-                        <p>{course?.moTa.length > 200 ? course.moTa.substring(0, 100) + '...' : course?.moTa || course?.moTa.length < 10 ? `  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae natus voluptatum voluptates voluptate doloribus iste voluptatem` : course?.moTa}</p>
+                        <p>{course.moTa?.length > 200 ? course.moTa.substring(0, 100) + '...' : course?.moTa || course?.moTa?.length < 10 ? `  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae natus voluptatum voluptates voluptate doloribus iste voluptatem` : course?.moTa}</p>
                         <div className="row">
                             <div className="col-6 calendar">
                                 <i className="fa-solid fa-calendar"><span>{course?.ngayTao}</span></i>
