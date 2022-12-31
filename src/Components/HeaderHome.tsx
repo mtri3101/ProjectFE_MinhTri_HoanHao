@@ -70,7 +70,7 @@ export default function HeaderHome({ }: Props) {
   return (
     <nav className="navbar navbar-expand-xl navbar-light  header-home">
       <div className="container-fluid ">
-        <NavLink className="navbar-brand" to='/home'><img src="/img/logo.png" alt="nav-logo" /></NavLink>
+        <NavLink className="navbar-brand" to='/home'><img src="./img/logo.png" alt="nav-logo" /></NavLink>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>
