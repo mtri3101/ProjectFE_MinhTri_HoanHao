@@ -58,7 +58,7 @@ export default function Profile({}: Props ) {
           />
           <h6>CrMaster</h6>
           <p>Lập trình viên Front-end</p>
-          <NavLink to="" className="btn btn-success">Hồ sơ cá nhân</NavLink>
+          <NavLink to="/userManagement" className="btn btn-success">Hồ sơ cá nhân</NavLink>
         </div>
         <div className="col-8">
           <div className="row">

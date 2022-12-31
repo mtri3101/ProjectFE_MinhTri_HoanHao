@@ -31,7 +31,7 @@ export default function CourseByCategory({ }: Props) {
 
     const renderKhoaHoc = (): JSX.Element[] => {
         return listCourseCatalog.map((course: CourseModel, index: number) => {
-            return <div className="col-3" key={index}>
+            return <div className="col-12 col-md-6 col-xxl-3 item" key={index}>
                 <div className="card">
                     <img src={course.hinhAnh} onError={replaceImage} alt="..." />
                     <div className="card-body">
@@ -54,9 +54,11 @@ export default function CourseByCategory({ }: Props) {
 
     return (
         <div className='container-fluid courseByCatalog'>
-            <h2>Các khóa học phổ biến</h2>
-            <div className="row">
-                {renderKhoaHoc()}
+            <div className="main">
+                <h2>Các khóa học phổ biến</h2>
+                <div className="row">
+                    {renderKhoaHoc()}
+                </div>
             </div>
         </div>
     )

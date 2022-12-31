@@ -13,6 +13,10 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Profile from './Pages/Profile';
 import MyCourse from './Pages/MyCourse';
+import AddUser from './Pages/AddUser';
+import UserManagement from './Pages/UserManagement';
+import AdminTemplate from './Templates/AdminTemplate';
+import CourseManagement from './Pages/Admin/CourseManagement';
 
 
 
@@ -43,6 +47,12 @@ root.render(
           <Route path='profile' element={<Profile />}></Route>
           <Route path='myCourse' element={<MyCourse />}></Route>
           <Route path='*' element={<Navigate to={""} />}></Route>
+        </Route>
+
+        <Route path="admin" element={<AdminTemplate />}>
+          <Route path='quanlykhoahoc' element={<CourseManagement />}></Route>
+          <Route path='quanlynguoidung' element={<UserManagement />}></Route>
+          <Route path="*" element={<Navigate to={""} />}></Route>
         </Route>
       </Routes>
     </HistoryRouter>

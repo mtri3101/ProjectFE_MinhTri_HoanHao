@@ -38,6 +38,7 @@ export interface NguoiTAO {
     tenLoaiNguoiDung: string;
 }
 
+
 //type category
 export interface CourseCategoryModel {
     maDanhMuc: string;
@@ -63,6 +64,26 @@ export interface CancelSubcribe {
     taiKhoan: string;
 }
 
+export interface WaitingCourse {
+    maKhoaHoc: string;
+    biDanh: string;
+    tenKhoaHoc: string;
+}
+
+export interface AddCourse {
+    maKhoaHoc: string;
+    biDanh: string;
+    tenKhoaHoc: string;
+    moTa: string;
+    luotXem: number;
+    danhGia: number;
+    hinhAnh: string;
+    maNhom: string;
+    ngayTao: string;
+    maDanhMucKhoaHoc: string;
+    taiKhoanNguoiTao: string;
+}
+
 //type state
 export interface CourseState {
     arrCourse: CourseModel[],
@@ -71,7 +92,12 @@ export interface CourseState {
     courseDetail: CourseDetail | null,
     cancelSubcribe: CancelSubcribe[],
     paginateCourse: Pagination,
+    waitingCourse: WaitingCourse[],
+    addCourse: AddCourse,
+    deleteCourse: any
 }
+
+
 
 const initialState: CourseState = {
     arrCourse: [],
@@ -86,7 +112,24 @@ const initialState: CourseState = {
         totalCount: 0,
         items: [],
     },
+    waitingCourse: [],
+    addCourse: {
+        maKhoaHoc: "11111",
+        biDanh: "lap trinh C",
+        tenKhoaHoc: "lap trinh C",
+        moTa: "khong co mo ta nao",
+        luotXem: 0,
+        danhGia: 0,
+        hinhAnh: "https://itstar.edu.vn/images/C__%20image.png",
+        maNhom: "GP01",
+        ngayTao: "28/12/2022",
+        maDanhMucKhoaHoc: "backend",
+        taiKhoanNguoiTao: "lamtangminhtri1"
+    },
+    deleteCourse: '',
 }
+
+
 
 const CourseReducer = createSlice({
     name: 'CourseReducer',
@@ -113,10 +156,20 @@ const CourseReducer = createSlice({
         getCoursePaginationAction: (state: CourseState, action: PayloadAction<Pagination>) => {
             state.paginateCourse = action.payload
         },
+        getWaitingCourseAction: (state: CourseState, action: PayloadAction<WaitingCourse[]>) => {
+            state.waitingCourse = action.payload
+        },
+        addCourseAction: (state: CourseState, action: PayloadAction<AddCourse>) => {
+            state.addCourse = action.payload
+        },
+        deleteCourseAction: (state: CourseState, action: PayloadAction<any>) => {
+            state.deleteCourse = action.payload
+        }
+
     }
 });
 
-export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction, cancelSubcribeAction, getCoursePaginationAction } = CourseReducer.actions
+export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction, cancelSubcribeAction, getCoursePaginationAction, getWaitingCourseAction, addCourseAction, deleteCourseAction } = CourseReducer.actions
 
 export default CourseReducer.reducer
 
@@ -170,12 +223,40 @@ export const getCancelSubcribeApi = (inform: any) => {
     }
 }
 
-export const getCoursePaginationApi = (tenKhoaHoc: string, page: number) => {
+export const getCoursePaginationApi = (tenKhoaHoc: string, page: number, coursePerPage: number) => {
     return async (dispatch: DispatchType) => {
-        const result: any = await http.get(`/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?tenKhoaHoc=${tenKhoaHoc}&page=${page}&pageSize=8&MaNhom=GP01`);
-        console.log(result)
+        const result: any = await http.get(`/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?tenKhoaHoc=${tenKhoaHoc}&page=${page}&pageSize=${coursePerPage}&MaNhom=GP01`);
         let paginateCourse: Pagination = result.data
         const action: PayloadAction<Pagination> = getCoursePaginationAction(paginateCourse)
         dispatch(action)
     }
 }
+
+export const getWaitingCourseApi = (taiKhoan: string) => {
+    const body = {
+        "taiKhoan": taiKhoan,
+    };
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.post(`/api/QuanLyNguoiDung/LayDanhSachKhoaHocChoXetDuyet`, body)
+        let course: WaitingCourse[] = result.data
+        const action: PayloadAction<WaitingCourse[]> = getWaitingCourseAction(course)
+        dispatch(action)
+    }
+}
+
+export const addCourseApi = (body: AddCourse) => {
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.post('/api/QuanLyKhoaHoc/ThemKhoaHoc', body)
+        const action: PayloadAction<AddCourse> = addCourseAction(result.data)
+        dispatch(action)
+    }
+}
+
+export const deleteCourseApi = (maKhoaHoc: string) => {
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.delete(`api/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${maKhoaHoc}`)
+        const action: PayloadAction<any> = deleteCourseAction(result.data)
+        dispatch(action)
+    }
+}
+

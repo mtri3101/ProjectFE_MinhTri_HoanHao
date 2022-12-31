@@ -16,7 +16,6 @@ export default function HeaderHome({ }: Props) {
   const { courseCategory } = useSelector((state: RootState) => state.CourseReducer);
   const { userProfile } = useSelector((state: RootState) => state.UserReducer);
   const dispatch: DispatchType = useDispatch();
-
   const [keyword, setKeyword] = useState('')
 
   useEffect(() => {

@@ -12,14 +12,11 @@ export default function Search({ }: Props) {
     const [currentPage, setCurrentPage] = useState(1)
     const dispatch: DispatchType = useDispatch()
     const params: any = useParams()
-    let abc = 'inactive';
-
-
 
 
     useEffect(() => {
         console.log(currentPage)
-        const action = getCoursePaginationApi(params.tuKhoa, currentPage);
+        const action = getCoursePaginationApi(params.tuKhoa, currentPage, 8);
         dispatch(action)
     }, [currentPage, params.tuKhoa])
 
@@ -74,7 +71,7 @@ export default function Search({ }: Props) {
 
     const renderCourseSearch = (): JSX.Element[] => {
         return paginateCourse?.items?.map((course: CourseModel, index: number) => {
-            return <div className="col-3" key={index}>
+            return <div className="col-12 col-md-6 col-xxl-3 item" key={index}>
                 <div className="card">
                     <img src={course?.hinhAnh} onError={replaceImage} alt="..." />
                     <div className="card-body">
@@ -97,11 +94,13 @@ export default function Search({ }: Props) {
 
     return (
         <div className='container-fluid courseByCatalog'>
-            <h3>{paginateCourse.totalCount > 0 ? `Tìm thấy ${paginateCourse.totalCount} khóa học phù hợp` : 'Không tìm thấy khóa học phù hợp'}</h3>
-            <div className="row">
-                {renderCourseSearch()}
+            <div className="main">
+                <h3>{paginateCourse.totalCount > 0 ? `Tìm thấy ${paginateCourse.totalCount} khóa học phù hợp` : 'Không tìm thấy khóa học phù hợp'}</h3>
+                <div className="row">
+                    {renderCourseSearch()}
+                </div>
+                {renderPagination()}
             </div>
-            {renderPagination()}
         </div>
     )
 }

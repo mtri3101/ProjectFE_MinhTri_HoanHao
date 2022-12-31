@@ -43,7 +43,9 @@
           padding-top: 20px;
           .row-course{
             align-items: center;
-            .col-2{
+            border: solid .5px;
+            border-radius: 20px;
+            .col-3{
               padding-top: 0;
               img{
                 border-radius: 10px;

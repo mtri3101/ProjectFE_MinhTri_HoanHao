@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DispatchType } from '../ConfigStore';
 import { http, USER_LOGIN, settings, ACCESSTOKEN, USER_REGISTER } from '../../Utils/Config';
+import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 export interface UserLogin {
   taiKhoan: string;
@@ -56,6 +57,19 @@ export interface CancelSubcribe {
   maKhoaHoc: string;
   taiKhoan: string;
 }
+export interface UnSubcribeUser {
+  taiKhoan: string;
+  hoTen: string;
+  biDanh: string;
+}
+
+export interface UserList {
+  taiKhoan: string;
+  hoTen: string;
+  email: string;
+  soDt: string;
+  maLoaiNguoiDung: string;
+}
 
 export interface UserState {
   userLogin: UserLogin[],
@@ -63,37 +77,28 @@ export interface UserState {
   userProfileUpdate: UserProfileUpdate[],
   userRegister: UserRegister[],
   courseRegister: {},
-  chiTietKhoaHocGhiDanh: CourseDetail | null
-  cancelSubcribe: CancelSubcribe[]
+  chiTietKhoaHocGhiDanh: CourseDetail | null,
+  cancelSubcribe: CancelSubcribe[],
+  unSubcribeUser: UnSubcribeUser[],
+  userList: UserList[],
+  courseStudent: UnSubcribeUser[],
+  listWaitingStudent: UnSubcribeUser[],
+  allUser: UserList[]
 }
 
 const initialState: UserState = {
   userLogin: settings.getStorageJson(USER_LOGIN) ? settings.getStorageJson(USER_LOGIN) : [],
-  userProfile: {
-    // chiTietKhoaHocGhiDanh: [
-    //   {
-    //     biDanh: "",
-    //     danhGia: "",
-    //     hinhAnh: "",
-    //     luotXem: "",
-    //     maKhoaHoc: "",
-    //     moTa: "",
-    //     ngayTao: "",
-    //     tenKhoaHoc: ""
-    //   }
-    // ],
-    // taiKhoan: "",
-    // hoTen: "",
-    // soDT: "",
-    // maLoaiNguoiDung: "",
-    // maNhom: "",
-    // email: "",
-  },
+  userProfile: {},
   chiTietKhoaHocGhiDanh: null,
   userProfileUpdate: [],
   userRegister: settings.getStorageJson(USER_REGISTER) ? settings.getStorageJson(USER_REGISTER) : [],
   courseRegister: {},
-  cancelSubcribe: []
+  cancelSubcribe: [],
+  unSubcribeUser: [],
+  userList: [],
+  courseStudent: [],
+  listWaitingStudent: [],
+  allUser: []
 }
 
 const UserReducer = createSlice({
@@ -112,16 +117,31 @@ const UserReducer = createSlice({
     RegisterAction: (state, action) => {
       state.userRegister = action.payload;
     },
-    registerCourseAction:(state:UserState,action:PayloadAction<{}>) =>{
+    registerCourseAction: (state: UserState, action: PayloadAction<{}>) => {
       state.courseRegister = action.payload
     },
-    cancelSubcribeAction: (state: UserState, action: PayloadAction<CancelSubcribe[]>) =>{
+    cancelSubcribeAction: (state: UserState, action: PayloadAction<CancelSubcribe[]>) => {
       state.cancelSubcribe = action.payload
-  }
+    },
+    unSubcribeAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) => {
+      state.unSubcribeUser = action.payload
+    },
+    getUserListAction: (state: UserState, action: PayloadAction<UserList[]>) => {
+      state.userList = action.payload
+    },
+    getCourseStudentAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) => {
+      state.courseStudent = action.payload
+    },
+    getWaitingStudentAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) => {
+      state.listWaitingStudent = action.payload
+    },
+    getAllUserAction: (state: UserState, action: PayloadAction<UserList[]>) => {
+      state.allUser = action.payload
+    }
   }
 });
 
-export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction } = UserReducer.actions
+export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction, getUserListAction, getCourseStudentAction, getWaitingStudentAction,getAllUserAction } = UserReducer.actions
 
 export default UserReducer.reducer
 
@@ -144,7 +164,7 @@ export const loginApi = (userLogin: any) => {
 
 export const getProfileApi = () => {
   return async (dispatch: DispatchType) => {
-    const result = await http.post('/api/QuanLyNguoiDung/ThongTinNguoiDung',);
+    const result = await http.post('/api/QuanLyNguoiDung/ThongTinNguoiDung');
     const action = getProfileAction(result.data);
     dispatch(action);
 
@@ -173,18 +193,62 @@ export const getRegisterApi = (userRegister: any) => {
   }
 }
 
-export const getRegisterCourseApi = (detail:{}) =>{
-  return async (dispatch:DispatchType) =>{
-    const result = await http.post('api/QuanLyKhoaHoc/DangKyKhoaHoc',detail);
+export const getRegisterCourseApi = (detail: {}) => {
+  return async (dispatch: DispatchType) => {
+    const result = await http.post('api/QuanLyKhoaHoc/DangKyKhoaHoc', detail);
     const action = registerCourseAction(result.data);
     dispatch(action);
   }
 }
 
-export const getCancelSubcribeApi = (maKhoaHoc:any) => {
+export const getCancelSubcribeApi = (inform: {}) => {
   return async (dispatch: DispatchType) => {
-      const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', maKhoaHoc);
-      const action = cancelSubcribeAction(result.data);
-      dispatch(action)
+    const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', inform);
+    const action = cancelSubcribeAction(result.data);
+    dispatch(action)
+  }
+}
+export const getUnSubcribeApi = (maKhoaHoc: string) => {
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachNguoiDungChuaGhiDanh', maKhoaHoc);
+    const action = unSubcribeAction(result.data);
+    dispatch(action)
+  }
+}
+export const getUserListApi = (id: string) => {
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.get(`/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01&tuKhoa=${id}`);
+    const action = getUserListAction(result.data);
+    dispatch(action)
+  }
+}
+
+export const getCourseStudentApi = (maKhoaHoc: string) => {
+  const body = {
+    "maKhoaHoc": maKhoaHoc,
+  };
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachHocVienKhoaHoc', body);
+    const action = getCourseStudentAction(result.data);
+    dispatch(action)
+  }
+}
+
+export const getWaitingStudentApi = (maKhoaHoc: string) => {
+  const body = {
+    "maKhoaHoc": maKhoaHoc,
+  };
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachHocVienChoXetDuyet', body);
+    const action = getWaitingStudentAction(result.data);
+    dispatch(action)
+  }
+}
+
+export const getAllUserApi = () => {
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.get('/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01')
+    const action = getAllUserAction(result.data);
+    dispatch(action)
   }
 }

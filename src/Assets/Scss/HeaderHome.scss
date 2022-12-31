@@ -8,6 +8,7 @@
   width: 100%;
   z-index: 1;
   .container-fluid {
+    width: 100%;
     .navbar-brand {
       img {
         width: 10vw;
@@ -17,6 +18,9 @@
       }
     }
     .navbar-toggler {
+      width: 50px;
+      position: relative;
+      right: 5%;
       span {
       }
     }
