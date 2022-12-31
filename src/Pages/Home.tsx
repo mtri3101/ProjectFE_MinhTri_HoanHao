@@ -126,7 +126,7 @@ export default function Home({ }: Props) {
           </div>
           <div className="col-12 col-lg-4 item">
             <div className="card">
-              <img src="img/home/grow.png" alt="" />
+              <img src="./img/home/grow.png" alt="" />
               <h3>Bạn muốn phát triển bản thân</h3>
               <p>Bạn muốn học lập trình nhưng không biết bắt đầu từ đâu? Hãy tham gia các lớp học của E-learning, sẽ luôn có những lớp dành cho người mới cho đến những người có kinh nghiệm</p>
               <i className="fa-solid fa-arrow-right"></i>
