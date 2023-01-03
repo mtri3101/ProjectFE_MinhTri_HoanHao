@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DispatchType } from '../ConfigStore';
 import { http, USER_LOGIN, settings, ACCESSTOKEN, USER_REGISTER } from '../../Utils/Config';
-import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 export interface UserLogin {
   taiKhoan: string;
@@ -58,9 +57,20 @@ export interface CancelSubcribe {
   taiKhoan: string;
 }
 export interface UnSubcribeUser {
-  taiKhoan: string;
-  hoTen:    string;
-  biDanh:   string;
+  taiKhoan: string,
+  hoTen: string,
+  email: string,
+  soDt: number,
+  maLoaiNguoiDung: string
+}
+export interface SearhUser {
+  taiKhoan: string,
+  hoTen: string,
+  email: string,
+  soDt: number,
+  matKhau: string,
+  maLoaiNguoiDung: string,
+  tenLoaiNguoiDung: string,
 }
 
 export interface UserState {
@@ -72,6 +82,7 @@ export interface UserState {
   chiTietKhoaHocGhiDanh: CourseDetail | null,
   cancelSubcribe: CancelSubcribe[],
   unSubcribeUser: UnSubcribeUser[],
+  searchUser: SearhUser[],
 }
 
 const initialState: UserState = {
@@ -83,6 +94,7 @@ const initialState: UserState = {
   courseRegister: {},
   cancelSubcribe: [],
   unSubcribeUser: [],
+  searchUser: [],
 }
 
 const UserReducer = createSlice({
@@ -98,7 +110,7 @@ const UserReducer = createSlice({
     getProfileUpdateAction: (state, action) => {
       state.userProfileUpdate = action.payload;
     },
-    RegisterAction: (state, action) => {
+    RegisterAction: (state:UserState, action: PayloadAction<UserRegister[]>) => {
       state.userRegister = action.payload;
     },
     registerCourseAction:(state:UserState,action:PayloadAction<{}>) =>{
@@ -110,17 +122,20 @@ const UserReducer = createSlice({
     unSubcribeAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) =>{
       state.unSubcribeUser = action.payload
     },
+    searchUserAction: (state: UserState, action: PayloadAction<SearhUser[]>) =>{
+      state.searchUser = action.payload
+    },
   }
 });
 
-export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction } = UserReducer.actions
+export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction, searchUserAction } = UserReducer.actions
 
 export default UserReducer.reducer
 
 export const loginApi = (userLogin: any) => {
   return async (dispatch: DispatchType) => {
     const result: any = await http.post('/api/QuanLyNguoiDung/DangNhap', userLogin);
-    const action = loginAction(result.data.content);
+    const action = loginAction(result.data);
     dispatch(action);
 
     const actionGetProfile = getProfileApi();
@@ -180,10 +195,19 @@ export const getCancelSubcribeApi = (inform:{}) => {
       dispatch(action)
   }
 }
+
 export const getUnSubcribeApi = () => {
   return async (dispatch: DispatchType) => {
-      const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachNguoiDungChuaGhiDanh');
+      const result: any = await http.get("/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01");
       const action = unSubcribeAction(result.data);
+      dispatch(action)
+  }
+}
+
+export const searchUserApi = (keyword:string) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.get("/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=" + `${keyword}`);
+      const action = searchUserAction(result.data);
       dispatch(action)
   }
 }

@@ -113,8 +113,18 @@ http.interceptors.response.use((response) => {
         // history.push('/login')
         window.location.href = '/login'
     }
-    if (error.response?.status === 400 || error.response?.status === 404) {
-        history.push('/')
-    }
+
+    // if (error.response?.data === "Tài khoản hoặc mật khẩu không đúng!") {
+    //     alert("Tài khoản hoặc mật khẩu không đúng!")
+    // }
+
+    // if (error.response?.data === "Email đã tồn tại!" || error.response?.status === "Tài khoản đã tồn tại!") {
+    //     alert("Đăng ký thất bại!")
+    // }
+
+    // if (error.response?.status === 400 || error.response?.status === 404) {
+    //     history.push('/')
+    // }
+    
     return Promise.reject(error)
 })

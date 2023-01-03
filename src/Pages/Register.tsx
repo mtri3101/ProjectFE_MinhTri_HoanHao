@@ -1,15 +1,64 @@
-import React from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import axios from 'axios';
 import "../Assets/Scss/Register.scss"
 import {  useFormik } from 'formik'
 import * as yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRegisterApi, RegisterAction } from '../Redux/Reducers/UserReducer'
+import { getRegisterApi, getUnSubcribeApi, RegisterAction, UnSubcribeUser } from '../Redux/Reducers/UserReducer'
 import { DispatchType, RootState } from '../Redux/ConfigStore'
 type Props = {}
 
 export default function Register({}: Props) {
-  const { userRegister } = useSelector((state: RootState) => state.UserReducer);
+  const { userRegister, unSubcribeUser} = useSelector((state: RootState) => state.UserReducer);
   const dispatch: DispatchType = useDispatch();
+  const [modal,setModal] = useState()
+  useEffect(() => {
+    const actionAsync = getUnSubcribeApi();
+    dispatch(actionAsync)
+  }, []);
+
+  const renderModal = () => {
+      const value = frm.values;
+      const reg = unSubcribeUser.filter((user:UnSubcribeUser) => user.taiKhoan === value.taiKhoan)
+      // const rong = unSubcribeUser.filter((user:UnSubcribeUser) => user.taiKhoan !== value.taiKhoan)
+      if (reg) {
+        return <div className="modal fade" id="exampleModal" tabIndex={-1}>
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-body">
+                    <div className="fail-checkmark">
+                        <div className="check-icon">
+                            <span className="icon-line line-tip" />
+                            <span className="icon-line line-long" />
+                            <div className="icon-circle"/>
+                            <div className="icon-fix"/>
+                        </div>
+                    </div>
+                    <h3>Bạn đã đăng ký thất bại</h3>
+                </div>
+            </div>
+        </div>
+    </div> 
+    }else{
+      return <div className="modal fade" id="exampleModal" tabIndex={-1}>
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-body">
+                    <div className="success-checkmark">
+                        <div className="check-icon">
+                            <span className="icon-line line-tip" />
+                            <span className="icon-line line-long" />
+                            <div className="icon-circle"/>
+                            <div className="icon-fix"/>
+                        </div>
+                    </div>
+                    <h3>Bạn đã đăng ký thành công</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    }  
+}
   const frm = useFormik({
     initialValues: {
       hoTen: '',
@@ -27,8 +76,9 @@ export default function Register({}: Props) {
       soDT: yup.number().required('Vui lòng nhập vào số điện thoại !').typeError('Số điện thoại phải là số !'),
       maNhom: yup.string().required('Vui lòng chọn mã nhóm !')
     }),
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values) => {
-      console.log(values);
       const action = getRegisterApi(values);
       dispatch(action);
     }
@@ -36,6 +86,7 @@ export default function Register({}: Props) {
   return (
     <form className='form-group-container' onSubmit={frm.handleSubmit}>
       <h3>Đăng Ký</h3>
+      {renderModal()}
       <div className='container'>
         <div className='row'>
             <div className='form-group-hoTen'>
@@ -55,7 +106,7 @@ export default function Register({}: Props) {
             </div>
             <div className='form-group-email'>
               <p>Email</p>
-              <input type="text" placeholder='Vui lòng nhập vào email ' name={"email"} onChange={frm.handleChange} onBlur={frm.handleBlur}/>
+              <input type="text" placeholder='Vui lòng nhập vào email ' name={"email"} onBlur={frm.handleBlur} onChange={frm.handleChange}/>
               {frm.errors.email ? <p className='text text-danger'>{frm.errors.email}</p> : ''}
             </div>
             <div className='form-group-phone'>
@@ -76,13 +127,13 @@ export default function Register({}: Props) {
                 <option>GP07</option>
                 <option>GP08</option>
                 <option>GP09</option>
-                <option>GP010</option>
+                <option>GP10</option>
               </select>
               {frm.errors.maNhom ? <p className='text text-danger'>{frm.errors.maNhom}</p> : ''}
             </div>
         </div>
         <div className='button'>
-        <button className='btn btn-primary' type='submit'>Đăng ký</button>
+        <button className='btn btn-primary' type='submit' data-bs-toggle="modal" data-bs-target="#exampleModal">Đăng ký</button>
         </div>
       </div>
     </form>
