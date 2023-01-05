@@ -1,10 +1,10 @@
-import React, { useState, useEffect, ChangeEvent, MouseEventHandler } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { NavLink } from "react-router-dom";
 import "../Assets/Scss/MyCourse.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../Redux/ConfigStore";
 import { CourseDetail, getCancelSubcribeApi } from "../Redux/Reducers/UserReducer";
-import { getProfileApi,  } from '../Redux/Reducers/UserReducer'
+import { getProfileApi, } from '../Redux/Reducers/UserReducer'
 
 type Props = {};
 
@@ -31,14 +31,13 @@ export default function MyCourse({ }: Props) {
 
   useEffect(() => {
     const search = userProfile.chiTietKhoaHocGhiDanh?.filter((course: CourseDetail) => course.tenKhoaHoc.toLowerCase().includes(keyword.toLowerCase()));
-    console.log(keyword)
-    if(keyword == ""){
+    if (keyword == "") {
       setSearchCourse(userProfile.chiTietKhoaHocGhiDanh)
-    }else{
+    } else {
       setSearchCourse(search)
     }
   }, [keyword])
-  
+
 
   const cancelCourse = async (maKhoaHoc: any) => {
     const inform = {

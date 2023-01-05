@@ -9,7 +9,6 @@ import { NavLink } from 'react-router-dom'
 type Props = {}
 
 export default function Register({ }: Props) {
-  const { userRegister } = useSelector((state: RootState) => state.UserReducer);
   const { allUser } = useSelector((state: RootState) => state.UserReducer);
   const dispatch: DispatchType = useDispatch();
   const [checkValid, setCheckValid] = useState('')
@@ -18,7 +17,6 @@ export default function Register({ }: Props) {
     const action = getAllUserApi()
     dispatch(action)
   }, [])
-  console.log(allUser)
 
 
   const frm = useFormik({
@@ -48,7 +46,6 @@ export default function Register({ }: Props) {
       if (indexId !== -1) {
         const validId = 'id'
         setCheckValid(validId)
-        console.log(indexId)
         return
       }
       if (indexEmail !== -1) {

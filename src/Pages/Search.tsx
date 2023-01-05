@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
 import { DispatchType, RootState } from '../Redux/ConfigStore'
-import { CourseModel, getArrCouseApi, getCoursePaginationApi } from '../Redux/Reducers/CourseReducer'
+import { CourseModel, getCoursePaginationApi } from '../Redux/Reducers/CourseReducer'
 import '../Assets/Scss/CourseByCategory.scss'
 
 type Props = {}
@@ -15,7 +15,6 @@ export default function Search({ }: Props) {
 
 
     useEffect(() => {
-        console.log(currentPage)
         const action = getCoursePaginationApi(params.tuKhoa, currentPage, 8);
         dispatch(action)
     }, [currentPage, params.tuKhoa])
