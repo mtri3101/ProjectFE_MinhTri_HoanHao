@@ -211,27 +211,6 @@ export default function CourseManagement({ }: Props) {
         console.log(maKhoaHoc)
     }
 
-    // const form_data = (event: any) => {
-
-    //     const image = 'http://dotnetguru.org/wp-content/uploads/2018/12/top-ngon-ngu-lap-trinh-AI-1-1024x633.jpg'
-
-    //     let formData = new FormData();
-    //     formData.append('hinhAnh', image);
-    //     const config = {
-    //         headers: { 'content-type': 'multipart/form-data' }
-    //     }
-    //     //@ts-ignore
-    //     axios.post(url, formData, config)
-    //         .then(response => {
-    //             console.log(response)
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }
-
-
-
 
     return (
         <div >
