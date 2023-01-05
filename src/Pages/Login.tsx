@@ -4,9 +4,8 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { NavLink } from "react-router-dom";
-import { loginApi, UserProfile } from "../Redux/Reducers/UserReducer";
+import { loginApi } from "../Redux/Reducers/UserReducer";
 import { DispatchType, RootState } from "../Redux/ConfigStore";
-import { history } from "../index";
 
 type Props = {};
 

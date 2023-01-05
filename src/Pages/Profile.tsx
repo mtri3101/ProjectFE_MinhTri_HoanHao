@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React  from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../Assets/Scss/Profile.scss";
@@ -40,7 +40,6 @@ export default function Profile({}: Props ) {
       validateOnChange: false,
       validateOnBlur: false,
       onSubmit: (values) => {
-        console.log(values)
         const action = getProfileUpdateApi(values);
         dispatch(action);
       }

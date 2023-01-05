@@ -34,7 +34,6 @@ const userSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setValueSearch(value)
 }
-
   
 const renderUser = () => {
   if (!valueSearch) {
@@ -48,7 +47,7 @@ const renderUser = () => {
               <td>{user.soDt}</td>
               <td>
                   <button className='btn btn-success my-1 ghiDanh' data-bs-toggle="modal" data-bs-target="#modalGhiDanh" onClick={() => openModalGhiDanh(user.taiKhoan)}>Ghi danh</button>
-                  <button className='btn btn-primary mx-3 my-1 sua'>Sửa</button>
+                  <button className='btn btn-primary mx-3 my-1 sua' data-bs-toggle="modal" data-bs-target="#userUpdate">Sửa</button>
                   <button className='btn btn-danger my-1 xoa' onClick={() => deleteUser(user.taiKhoan)}>Xóa</button>
               </td>
           </tr>
@@ -66,7 +65,7 @@ const renderUser = () => {
               <td>{user.soDt}</td>
               <td>
                   <button className='btn btn-success my-1 ghiDanh' data-bs-toggle="modal" data-bs-target="#modalGhiDanh" onClick={() => openModalGhiDanh(user.taiKhoan)}>Ghi danh</button>
-                  <button className='btn btn-primary mx-3 my-1 sua'>Sửa</button>
+                  <button className='btn btn-primary mx-3 my-1 sua' data-bs-toggle="modal" data-bs-target="#userUpdate">Sửa</button>
                   <button className='btn btn-danger xoa' onClick={() => deleteUser(user.taiKhoan)}>Xóa</button>
               </td>
           </tr>

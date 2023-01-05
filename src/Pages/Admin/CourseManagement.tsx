@@ -2,20 +2,16 @@ import React, { useEffect, useState, ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { DispatchType, RootState } from '../../Redux/ConfigStore'
-import { AddCourse, addCourseApi, CourseModel, deleteCourseApi, getCoursePaginationApi, getWaitingCourseApi } from '../../Redux/Reducers/CourseReducer'
+import { AddCourse, addCourseApi, CourseModel, deleteCourseApi, getCoursePaginationApi } from '../../Redux/Reducers/CourseReducer'
 import '../../Assets/Scss/Admin/Course.scss'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { getCourseStudentApi, getProfileApi, getUnSubcribeApi, getWaitingStudentApi, UnSubcribeUser } from '../../Redux/Reducers/UserReducer'
-import axios from 'axios'
-import { url } from 'inspector'
-import { URL } from 'url'
+import { getCourseStudentApi, getWaitingStudentApi, UnSubcribeUser } from '../../Redux/Reducers/UserReducer'
 
 type Props = {}
 
 export default function CourseManagement({ }: Props) {
     const { paginateCourse } = useSelector((state: RootState) => state.CourseReducer)
-    const { unSubcribeUser } = useSelector((state: RootState) => state.UserReducer)
     const { courseStudent } = useSelector((state: RootState) => state.UserReducer)
     const { listWaitingStudent } = useSelector((state: RootState) => state.UserReducer)
     const [currentPage, setCurrentPage] = useState(1)
@@ -55,7 +51,6 @@ export default function CourseManagement({ }: Props) {
             })
         } else {
             const arrSearch = paginateCourse?.items?.filter((course: CourseModel) => course.tenKhoaHoc.toLowerCase().includes(valueSearch.toLowerCase()) || course.maKhoaHoc.toLowerCase().includes(valueSearch.toLowerCase()));
-            console.log(valueSearch)
             return arrSearch.map((course: CourseModel, index: number) => {
                 return <tr key={index}>
                     <td>{index += 1}</td>
@@ -152,19 +147,17 @@ export default function CourseManagement({ }: Props) {
                     maDanhMucKhoaHoc: values.danhMucKhoaHoc,
                     taiKhoanNguoiTao: id.taiKhoan
                 }
-                console.log(body)
                 const action = addCourseApi(body);
                 dispatch(action)
             }
             resetForm();
-            
+
         }
     });
 
     const openModalGhiDanh = (maKhoaHoc: string) => {
         getWaitingStudent(maKhoaHoc)
         getCourseStudent(maKhoaHoc)
-
     }
 
     const getWaitingStudent = (maKhoaHoc: string) => {
@@ -207,7 +200,6 @@ export default function CourseManagement({ }: Props) {
     const deleteCourse = (maKhoaHoc: string) => {
         const action = deleteCourseApi(maKhoaHoc)
         dispatch(action)
-        console.log(maKhoaHoc)
     }
 
     return (
