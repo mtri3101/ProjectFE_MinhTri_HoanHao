@@ -3,9 +3,8 @@
     background-color: none;
 }
 .container{
-    padding-top: 7%;
     .row{
-        .col-2{
+        .col-1{
             border: 1px solid;
             height: 100vh;
             .course{
@@ -16,7 +15,7 @@
                 background-color: black;
             }
         }
-        .col-10{
+        .col-11{
             border: 1px solid;
             height: 100vh;
             padding: 10px 60px;
@@ -44,18 +43,16 @@
                     font-weight: 700;
                     height: 30px;
                 }
-                .content{
-                   .ghiDanh{
-                        background-color: #41b294;
-                        color: #fff;
-                        border: none;
-                   }
-                   .sua{
-                        background-color: #2550dd;
-                   }
-                   .xoa{
-                        background-color: rgb(218, 30, 30);
-                   }
+                .ghiDanh{
+                     background-color: #41b294;
+                     color: #fff;
+                     border: none;
+                }
+                .sua{
+                     background-color: #2550dd;
+                }
+                .xoa{
+                     background-color: rgb(218, 30, 30);
                 }
             }
         }

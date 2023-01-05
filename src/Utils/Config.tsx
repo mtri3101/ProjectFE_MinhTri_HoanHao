@@ -78,7 +78,7 @@ export const settings = {
     }
 }
 
-export const TOKEN_CYBERSOFT: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzMyIsIkhldEhhblN0cmluZyI6IjA4LzA0LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4MDkxMjAwMDAwMCIsIm5iZiI6MTY1Mjg5MzIwMCwiZXhwIjoxNjgxMDU5NjAwfQ.YWfEjzumDyUA3XRRvMIkDiD1cOGgRKyAAeOTP3qTT2c'
+export const TOKEN_CYBERSOFT: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJOb2RlanMgMjYiLCJIZXRIYW5TdHJpbmciOiIyNC8wNi8yMDIzIiwiSGV0SGFuVGltZSI6IjE2ODc1NjQ4MDAwMDAiLCJuYmYiOjE2NjkwNTAwMDAsImV4cCI6MTY4NzcxMjQwMH0.81OO7bgrZL89KId2Ht-rQ1wAJlg_pHRbcW0jUFP4PrE'
 
 export const http = axios.create({
     baseURL: 'https://elearningnew.cybersoft.edu.vn', 
@@ -108,10 +108,7 @@ http.interceptors.response.use((response) => {
 }, (error) => {
     console.log(error)
     if (error.response?.status === 401) {
-        //window.location.href = '/login' //Chuyển hướng nhưng reload lại page => có thể mất dữ liệu từ redux
-        //Mục đích: chuyển hướng trang mà không cần reload lại page
-        // history.push('/login')
-        window.location.href = '/login'
+        // window.location.href = '/login'
     }
 
     // if (error.response?.data === "Tài khoản hoặc mật khẩu không đúng!") {

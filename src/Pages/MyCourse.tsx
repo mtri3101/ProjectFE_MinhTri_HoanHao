@@ -11,16 +11,17 @@ type Props = {};
 export default function MyCourse({ }: Props) {
   const { userProfile } = useSelector((state: RootState) => state.UserReducer);
   const dispatch: DispatchType = useDispatch();
-  const [keyword,setKeyword] = useState('')
-  const [searchCourse,setSearchCourse] = useState([])
+  // const params: any = useParams()
+  const [keyword, setKeyword] = useState('')
+  const [searchCourse, setSearchCourse] = useState([])
 
   useEffect(() => {
     const action = getProfileApi();
     dispatch(action)
   }, [])
 
-  const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
-    const {value} = event.target
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
     setKeyword(value)
   }
 

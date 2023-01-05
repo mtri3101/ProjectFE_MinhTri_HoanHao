@@ -1,11 +1,10 @@
-import { $CombinedState } from '@reduxjs/toolkit'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
 import '../Assets/Scss/Detail.scss'
 import { DispatchType, RootState } from '../Redux/ConfigStore'
 import { CourseModel, getArrCouseApi, getCourseDetailApi } from '../Redux/Reducers/CourseReducer'
-import { getProfileApi, getRegisterCourseApi } from '../Redux/Reducers/UserReducer'
+import { CourseDetail, getProfileApi, getRegisterCourseApi } from '../Redux/Reducers/UserReducer'
 import '../Assets/Scss/Modal.scss'
 
 type Props = {}
@@ -14,13 +13,22 @@ export default function Detail({ }: Props) {
     const { arrCourse } = useSelector((state: RootState) => state.CourseReducer);
     const { courseDetail } = useSelector((state: RootState) => state.CourseReducer);
     const { userProfile } = useSelector((state: RootState) => state.UserReducer)
-    const dispatch: DispatchType = useDispatch();
+    const [modalRender, setModalRender] = useState(false)
     const params: any = useParams()
+
+
+    const dispatch: DispatchType = useDispatch();
 
     useEffect(() => {
         const action = getProfileApi();
         dispatch(action)
-    }, [])
+    }, [userProfile.chiTietKhoaHocGhiDanh])
+
+    const detail = {
+        "maKhoaHoc": params.maKhoaHoc,
+        "taiKhoan": userProfile.taiKhoan,
+    }
+
 
     useEffect(() => {
         const action = getArrCouseApi();
@@ -32,21 +40,46 @@ export default function Detail({ }: Props) {
         dispatch(action)
     }, [params.maKhoaHoc])
 
-    const openModal = () => {
-        <button type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#success_tic">Open Modal</button>
-    }
 
 
     const handleRegister = () => {
-        const detail = {
-            "maKhoaHoc": params.maKhoaHoc,
-            "taiKhoan": userProfile.taiKhoan,
+        const index = userProfile.chiTietKhoaHocGhiDanh.findIndex((item: CourseDetail) => item.maKhoaHoc === params.maKhoaHoc)
+        if (index === -1) {
+            const action = getRegisterCourseApi(detail);
+            dispatch(action);
+            setModalRender(true)
         }
-        const action = getRegisterCourseApi(detail);
-        dispatch(action);
-        // alert("Bạn đã đăng ký khóa học thành công")
-        openModal()
+        if (index !== -1) {
+            setModalRender(false)
+        }
+    }
 
+
+
+    const renderContentModal = (check: boolean) => {
+        if (check) {
+            return <div className="modal-body">
+                <div className="success-checkmark">
+                    <div className="check-icon">
+                        <span className="icon-line line-tip" />
+                        <span className="icon-line line-long" />
+                        <div className="icon-circle" />
+                        <div className="icon-fix" />
+                    </div>
+                </div>
+                <h3>Bạn đã ghi danh thành công</h3>
+            </div>
+        } else {
+            return <div className="modal-body">
+                <div className="swal2-icon swal2-error swal2-animate-error-icon">
+                    <span className="swal2-x-mark">
+                        <span className="swal2-x-mark-line-left" />
+                        <span className="swal2-x-mark-line-right" />
+                    </span>
+                </div>
+                <h3>Bạn đã ghi danh khóa học này rồi </h3>
+            </div>
+        }
     }
 
 
@@ -59,12 +92,12 @@ export default function Detail({ }: Props) {
 
     const renderCourseRelated = (): JSX.Element[] => {
         return relatedCourse.map((course: CourseModel, index: number) => {
-            return <div className="col-3" key={index}>
+            return <div className="col-12 col-md-6 col-xxl-3 item" key={index}>
                 <div className="card">
                     <img src={course.hinhAnh} onError={replaceImage} alt="..." />
                     <div className="card-body">
                         <h1>{course.biDanh}</h1>
-                        <p>{course.moTa.length > 200 ? course.moTa.substring(0, 100) + '...' : course.moTa}</p>
+                        <p>{course.moTa?.length > 200 ? course.moTa.substring(0, 100) + '...' : course.moTa}</p>
                         <div className="row">
                             <div className="col-6 calendar">
                                 <i className="fa-solid fa-calendar"><span>{course.ngayTao}</span></i>
@@ -86,20 +119,12 @@ export default function Detail({ }: Props) {
             <div className="modal fade" id="exampleModal" tabIndex={-1}>
                 <div className="modal-dialog">
                     <div className="modal-content">
-                        <div className="modal-body">
-                            <div className="success-checkmark">
-                                <div className="check-icon">
-                                    <span className="icon-line line-tip" />
-                                    <span className="icon-line line-long" />
-                                    <div className="icon-circle"/>
-                                    <div className="icon-fix"/>
-                                </div>
-                            </div>
-                            <h3>Bạn đã ghi danh thành công</h3>
-                        </div>
+                        {renderContentModal(modalRender)}
                     </div>
                 </div>
             </div>
+
+
             <div className="row main">
                 <div className="col-7">
                     <h2>Lập trình Front End cơ bản đến nâng cao</h2>
@@ -136,7 +161,7 @@ export default function Detail({ }: Props) {
                             <img src="/img/es6.png" alt="es6_image" />
                             <img src="/img/sass.png" alt="sass_image" />
                             <img src="/img/api.png" alt="api_image" />
-                            <img src="/img/react.svg.png" alt="react_image" />
+                            <img src="/img/react.png" alt="react_image" />
                             <img src="/img/typescript.png" alt="typescript_image" />
                         </div>
                     </div>
@@ -157,9 +182,11 @@ export default function Detail({ }: Props) {
                 </div>
             </div>
             <div className='related-course'>
-                <h2>Những khóa học khác bạn có thể tham khảo</h2>
-                <div className="row">
-                    {renderCourseRelated()}
+                <div className="main">
+                    <h2>Những khóa học khác bạn có thể tham khảo</h2>
+                    <div className="row">
+                        {renderCourseRelated()}
+                    </div>
                 </div>
             </div>
         </div>

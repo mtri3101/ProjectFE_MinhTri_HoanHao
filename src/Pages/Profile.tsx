@@ -58,7 +58,7 @@ export default function Profile({}: Props ) {
           />
           <h6>CrMaster</h6>
           <p>Lập trình viên Front-end</p>
-          <NavLink to="/userManagement" className="btn btn-success">Hồ sơ cá nhân</NavLink>
+          <NavLink to="" className="btn btn-success">Hồ sơ cá nhân</NavLink>
         </div>
         <div className="col-8">
           <div className="row">
@@ -98,7 +98,7 @@ export default function Profile({}: Props ) {
               </div>
               <div className="form-group doiTuong">
                 <p>
-                  Đối tượng:<span>{userProfile.maLoaiNguoiDung}</span>
+                  Đối tượng:<span>{userProfile.maLoaiNguoiDung === 'GV'? <NavLink to='/admin' className='ms-2'>Đi đến trang quản lý</NavLink> : userProfile.maLoaiNguoiDung }</span>
                 </p>
               </div>
               <button

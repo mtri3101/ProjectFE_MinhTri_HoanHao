@@ -11,6 +11,7 @@
     "@types/node": "^16.18.4",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
+    "@types/react-paginate": "^7.1.1",
     "@types/react-wow": "^1.0.1",
     "animate.css": "^4.1.1",
     "axios": "^1.2.0",

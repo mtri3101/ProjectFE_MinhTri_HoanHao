@@ -57,20 +57,49 @@ export interface CancelSubcribe {
   taiKhoan: string;
 }
 export interface UnSubcribeUser {
-  taiKhoan: string,
-  hoTen: string,
-  email: string,
-  soDt: number,
+  taiKhoan: string;
+  hoTen: string;
+  email: string;
+  soDt: string;
   maLoaiNguoiDung: string
 }
-export interface SearhUser {
+
+export interface UserList {
+  taiKhoan: string;
+  hoTen: string;
+  email: string;
+  soDt: string;
+  maLoaiNguoiDung: string;
+}
+export interface SearchUser {
+  taiKhoan: string;
+  hoTen: string;
+  email: string;
+  soDt: string;
+  matKhau: string;
+  maLoaiNguoiDung: string;
+  tenLoaiNguoiDung: string;
+}
+export interface Pagination {
+  currentPage: number;
+  count: number;
+  totalPages: number;
+  totalCount: number;
+  items: UnSubcribeUser[];
+}
+export interface WaitingUser {
+  taiKhoan: string;
+  hoTen: string;
+  biDanh: string;
+}
+export interface AddUser {
   taiKhoan: string,
-  hoTen: string,
-  email: string,
-  soDt: number,
   matKhau: string,
+  hoTen: string,
+  soDt: string,
   maLoaiNguoiDung: string,
-  tenLoaiNguoiDung: string,
+  maNhom: string,
+  email: string,
 }
 
 export interface UserState {
@@ -82,7 +111,15 @@ export interface UserState {
   chiTietKhoaHocGhiDanh: CourseDetail | null,
   cancelSubcribe: CancelSubcribe[],
   unSubcribeUser: UnSubcribeUser[],
-  searchUser: SearhUser[],
+  userList: UserList[],
+  courseStudent: UnSubcribeUser[],
+  listWaitingStudent: UnSubcribeUser[],
+  allUser: UserList[],
+  searchUser: SearchUser[],
+  paginateUser: Pagination,
+  waitingUser: WaitingUser[],
+  addUser: AddUser,
+  deleteUser: any
 }
 
 const initialState: UserState = {
@@ -94,7 +131,29 @@ const initialState: UserState = {
   courseRegister: {},
   cancelSubcribe: [],
   unSubcribeUser: [],
+  userList: [],
+  courseStudent: [],
+  listWaitingStudent: [],
+  allUser: [],
   searchUser: [],
+  paginateUser: {
+    currentPage: 0,
+    count: 0,
+    totalPages: 0,
+    totalCount: 0,
+    items: [],
+  },
+  waitingUser: [],
+  addUser: {
+    taiKhoan: "haotrinh",
+    matKhau: "123456",
+    hoTen: "CrMaster",
+    soDt: "19009090",
+    maLoaiNguoiDung: "GV",
+    maNhom: "GP01",
+    email: "haotrinh@gmail.com",
+  },
+  deleteUser: '',
 }
 
 const UserReducer = createSlice({
@@ -113,22 +172,47 @@ const UserReducer = createSlice({
     RegisterAction: (state:UserState, action: PayloadAction<UserRegister[]>) => {
       state.userRegister = action.payload;
     },
-    registerCourseAction:(state:UserState,action:PayloadAction<{}>) =>{
+    registerCourseAction: (state: UserState, action: PayloadAction<{}>) => {
       state.courseRegister = action.payload
     },
-    cancelSubcribeAction: (state: UserState, action: PayloadAction<CancelSubcribe[]>) =>{
+    cancelSubcribeAction: (state: UserState, action: PayloadAction<CancelSubcribe[]>) => {
       state.cancelSubcribe = action.payload
     },
-    unSubcribeAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) =>{
+    unSubcribeAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) => {
       state.unSubcribeUser = action.payload
     },
-    searchUserAction: (state: UserState, action: PayloadAction<SearhUser[]>) =>{
+    getUserListAction: (state: UserState, action: PayloadAction<UserList[]>) => {
+      state.userList = action.payload
+    },
+    getCourseStudentAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) => {
+      state.courseStudent = action.payload
+    },
+    getWaitingStudentAction: (state: UserState, action: PayloadAction<UnSubcribeUser[]>) => {
+      state.listWaitingStudent = action.payload
+    },
+    getAllUserAction: (state: UserState, action: PayloadAction<UserList[]>) => {
+      state.allUser = action.payload
+    },
+    searchUserAction: (state: UserState, action: PayloadAction<SearchUser[]>) => {
       state.searchUser = action.payload
     },
+    getUserPaginationAction: (state: UserState, action: PayloadAction<Pagination>) => {
+      state.paginateUser = action.payload
+    },
+    getWaitingUserAction: (state: UserState, action: PayloadAction<WaitingUser[]>) => {
+      state.waitingUser = action.payload
+    },
+    addUserAction: (state: UserState, action: PayloadAction<AddUser>) => {
+      state.addUser = action.payload
+    },
+    deleteUserAction: (state: UserState, action: PayloadAction<any>) => {
+      state.deleteUser = action.payload
+    }
+
   }
 });
 
-export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction, searchUserAction } = UserReducer.actions
+export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction, getUserListAction, getCourseStudentAction, getWaitingStudentAction, getAllUserAction, searchUserAction, getUserPaginationAction, getWaitingUserAction, addUserAction, deleteUserAction } = UserReducer.actions
 
 export default UserReducer.reducer
 
@@ -180,27 +264,63 @@ export const getRegisterApi = (userRegister: any) => {
   }
 }
 
-export const getRegisterCourseApi = (detail:{}) =>{
-  return async (dispatch:DispatchType) =>{
-    const result = await http.post('api/QuanLyKhoaHoc/DangKyKhoaHoc',detail);
+export const getRegisterCourseApi = (detail: {}) => {
+  return async (dispatch: DispatchType) => {
+    const result = await http.post('api/QuanLyKhoaHoc/DangKyKhoaHoc', detail);
     const action = registerCourseAction(result.data);
     dispatch(action);
   }
 }
 
-export const getCancelSubcribeApi = (inform:{}) => {
+export const getCancelSubcribeApi = (inform: {}) => {
   return async (dispatch: DispatchType) => {
-      const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', inform);
-      const action = cancelSubcribeAction(result.data);
-      dispatch(action)
+    const result: any = await http.post('/api/QuanLyKhoaHoc/HuyGhiDanh', inform);
+    const action = cancelSubcribeAction(result.data);
+    dispatch(action)
+  }
+}
+export const getUnSubcribeApi = () => {
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.get('/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01');
+    const action = unSubcribeAction(result.data);
+    dispatch(action)
+  }
+}
+export const getUserListApi = (id: string) => {
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.get(`/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01&tuKhoa=${id}`);
+    const action = getUserListAction(result.data);
+    dispatch(action)
   }
 }
 
-export const getUnSubcribeApi = () => {
+export const getCourseStudentApi = (maKhoaHoc: string) => {
+  const body = {
+    "maKhoaHoc": maKhoaHoc,
+  };
   return async (dispatch: DispatchType) => {
-      const result: any = await http.get("/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01");
-      const action = unSubcribeAction(result.data);
-      dispatch(action)
+    const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachHocVienKhoaHoc', body);
+    const action = getCourseStudentAction(result.data);
+    dispatch(action)
+  }
+}
+
+export const getWaitingStudentApi = (maKhoaHoc: string) => {
+  const body = {
+    "maKhoaHoc": maKhoaHoc,
+  };
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachHocVienChoXetDuyet', body);
+    const action = getWaitingStudentAction(result.data);
+    dispatch(action)
+  }
+}
+
+export const getAllUserApi = () => {
+  return async (dispatch: DispatchType) => {
+    const result: any = await http.get('/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01')
+    const action = getAllUserAction(result.data);
+    dispatch(action)
   }
 }
 
@@ -208,6 +328,43 @@ export const searchUserApi = (keyword:string) => {
   return async (dispatch: DispatchType) => {
       const result: any = await http.get("/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=" + `${keyword}`);
       const action = searchUserAction(result.data);
+      dispatch(action)
+  }
+}
+
+export const getUserPaginationApi = (page: number, userPerPage: number) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.get(`/api/QuanLyNguoiDung/LayDanhSachNguoiDung_PhanTrang?MaNhom=GP01&page=${page}&pageSize=${userPerPage}`);
+      let paginateUser: Pagination = result.data
+      const action: PayloadAction<Pagination> = getUserPaginationAction(paginateUser)
+      dispatch(action)
+  }
+}
+
+export const getWaitingUserApi = (maKhoaHoc: string) => {
+  const body = {
+      "taiKhoan": maKhoaHoc,
+  };
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.post(`/api/QuanLyNguoiDung/LayDanhSachHocVienChoXetDuyet`, body)
+      let user: WaitingUser[] = result.data
+      const action: PayloadAction<WaitingUser[]> = getWaitingUserAction(user)
+      dispatch(action)
+  }
+}
+
+export const addUserApi = (body: AddUser) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.post('/api/QuanLyNguoiDung/ThemNguoiDung', body)
+      const action: PayloadAction<AddUser> = addUserAction(result.data)
+      dispatch(action)
+  }
+}
+
+export const deleteUserApi = (taiKhoan: string) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.delete(`api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`)
+      const action: PayloadAction<any> = deleteUserAction(result.data)
       dispatch(action)
   }
 }
