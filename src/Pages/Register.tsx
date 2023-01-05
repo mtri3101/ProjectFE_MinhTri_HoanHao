@@ -38,8 +38,9 @@ export default function Register({ }: Props) {
       soDT: yup.number().required('Vui lòng nhập vào số điện thoại !').typeError('Số điện thoại phải là số !'),
       maNhom: yup.string().required('Vui lòng chọn mã nhóm !')
     }),
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values) => {
-      console.log(values);
       const action = getRegisterApi(values);
       dispatch(action);
       const indexId = allUser.findIndex((user: UserList) => user.taiKhoan === values.taiKhoan)
@@ -156,7 +157,7 @@ export default function Register({ }: Props) {
                 <option>GP07</option>
                 <option>GP08</option>
                 <option>GP09</option>
-                <option>GP010</option>
+                <option>GP10</option>
               </select>
               {frm.errors.maNhom ? <p className='text text-danger'>{frm.errors.maNhom}</p> : ''}
             </div>

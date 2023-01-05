@@ -38,6 +38,7 @@ export default function MyCourse({ }: Props) {
       setSearchCourse(search)
     }
   }, [keyword])
+  
 
   const cancelCourse = async (maKhoaHoc: any) => {
     const inform = {
@@ -101,7 +102,7 @@ export default function MyCourse({ }: Props) {
           />
           <h6>CrMaster</h6>
           <p>Lập trình viên Front-end</p>
-          <NavLink to="" className="btn btn-success">
+          <NavLink to="/userManagement" className="btn btn-success">
             Hồ sơ cá nhân
           </NavLink>
         </div>

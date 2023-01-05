@@ -1,0 +1,233 @@
+
+*table{
+    background-color: none;
+}
+.container{
+    .row{
+        .col-1{
+            border: 1px solid;
+            height: 100vh;
+            .course{
+                margin-top: 20px; 
+                background-color: #41b294;    
+            }
+            .user{
+                background-color: black;
+            }
+        }
+        .col-11{
+            border: 1px solid;
+            height: 100vh;
+            padding: 10px 60px;
+            .addCourse{
+                margin: 20px 40px;
+            }
+            form{
+                padding-left: 40px;
+                input{
+                    width: 70%;
+                    height: 40px;
+                    padding-left: 10px;
+                }
+                .search{
+
+                }
+            }
+            .table{
+                border: 1px solid;
+                margin: 30px 0px;
+                text-align: center;
+                background-color: none;
+                .title{
+                    text-align: center;
+                    font-weight: 700;
+                    height: 30px;
+                }
+                .ghiDanh{
+                     background-color: #41b294;
+                     color: #fff;
+                     border: none;
+                }
+                .sua{
+                     background-color: #2550dd;
+                }
+                .xoa{
+                     background-color: rgb(218, 30, 30);
+                }
+            }
+        }
+    }
+    .modal{
+        top: 60%;
+        .modal-header{
+            padding: 10px 16px;
+            text-align: center;
+            h6{
+                font-size: 25px;
+                font-weight: 500;
+            }
+        }
+        .modal-body{
+            .container{
+                padding: 0;
+                p{
+    
+                }
+                
+                select{
+                    width: 88%;
+                    margin-left: 15px;
+                    height: 35px;
+                    padding-left: 5px;
+                }
+                .hr{
+                    height: 5px;
+                    margin: 15px;
+                }
+                .hocVienXacThuc{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    align-items: center;
+                    .col-left{
+                        h6{
+        
+                        }
+                    }
+                    .col-right{
+                        text-align: right;
+                        margin-right: 20px;
+                        input{
+                            height: 35px;
+                            width: 70%;
+                            padding-left: 10px;
+                        }
+                    }
+                }
+                .table{
+                    border: 1px solid;
+                    margin: 30px 0px;
+                    text-align: center;
+                    background-color: #eee;
+                    width: 100%;
+                    .title{
+                        text-align: center;
+                        font-weight: 700;
+                        height: 30px;
+                    }
+                    .content{
+                        .btn-warning{
+                            // background-color: #2550dd;
+                       }
+                       .btn-success{
+                            // background-color: rgb(218, 30, 30);
+                       }
+                    }
+                }
+            }
+        }
+    }
+
+    .modal{
+        top: 60%;
+        .modal-header{
+            padding: 10px 16px;
+        }
+        .modal-body{
+            .form-group-container{
+                padding: 40px 0;
+                height: auto;
+                .container{ 
+                    .row {
+                        padding: 0;
+                        .form-group-hoTen{
+                            padding-bottom: 30px;
+                            p{
+                                margin-bottom: 5px;
+                                color: #efe80b;
+                            }
+                            input{
+                                width: 100%;
+                                height: 40px;
+                                background: #eee;
+                                border: none;
+                                padding: 10px 15px;
+                            }
+                        }
+                        .form-group-taiKhoan{
+                            padding-bottom: 30px;
+                            p{
+                                margin-bottom: 5px;
+                                color: #efe80b;
+                            }
+                            input{
+                                width: 100%;
+                                height: 40px;
+                                background: #eee;
+                                border: none;
+                                padding: 10px 15px;
+                            }
+                        }
+                        .form-group-matKhau{
+                            padding-bottom: 30px;
+                            p{
+                                margin-bottom: 5px;
+                                color: #efe80b;
+                            }
+                            input{
+                                width: 100%;
+                                height: 40px;
+                                background: #eee;
+                                border: none;
+                                padding: 10px 15px;
+                            }
+                        }
+                        .form-group-email{
+                            padding-bottom: 30px;
+                            p{
+                                margin-bottom: 5px;
+                                color: #efe80b;
+                            }
+                            input{
+                                width: 100%;
+                                height: 40px;
+                                background: #eee;
+                                border: none;
+                                padding: 10px 15px;
+                            }
+                        }
+                        .form-group-phone{
+                            padding-bottom: 30px;
+                            p{
+                                margin-bottom: 5px;
+                                color: #efe80b;
+                            }
+                            input{
+                                width: 100%;
+                                height: 40px;
+                                background: #eee;
+                                border: none;
+                                padding: 10px 15px;
+                            }
+                        }
+                        .form-group-maLoaiNguoiDung{
+                            padding-bottom: 0px;
+                            p{
+                                margin-bottom: 5px;
+                                color: #efe80b;
+                            }
+                            select{
+                                width: 100%;
+                                height: 40px;
+                                background: #eee;
+                                border: none;
+                                padding: 10px 15px;
+                                margin: 0px;
+                            }
+                        }  
+                    }  
+                }
+            }
+            
+        }
+    }
+}

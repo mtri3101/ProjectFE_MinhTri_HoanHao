@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DispatchType } from '../ConfigStore';
 import { http, USER_LOGIN, settings, ACCESSTOKEN, USER_REGISTER } from '../../Utils/Config';
-import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 export interface UserLogin {
   taiKhoan: string;
@@ -60,7 +59,9 @@ export interface CancelSubcribe {
 export interface UnSubcribeUser {
   taiKhoan: string;
   hoTen: string;
-  biDanh: string;
+  email: string;
+  soDt: string;
+  maLoaiNguoiDung: string
 }
 
 export interface UserList {
@@ -69,6 +70,36 @@ export interface UserList {
   email: string;
   soDt: string;
   maLoaiNguoiDung: string;
+}
+export interface SearchUser {
+  taiKhoan: string;
+  hoTen: string;
+  email: string;
+  soDt: string;
+  matKhau: string;
+  maLoaiNguoiDung: string;
+  tenLoaiNguoiDung: string;
+}
+export interface Pagination {
+  currentPage: number;
+  count: number;
+  totalPages: number;
+  totalCount: number;
+  items: UnSubcribeUser[];
+}
+export interface WaitingUser {
+  taiKhoan: string;
+  hoTen: string;
+  biDanh: string;
+}
+export interface AddUser {
+  taiKhoan: string,
+  matKhau: string,
+  hoTen: string,
+  soDt: string,
+  maLoaiNguoiDung: string,
+  maNhom: string,
+  email: string,
 }
 
 export interface UserState {
@@ -83,7 +114,12 @@ export interface UserState {
   userList: UserList[],
   courseStudent: UnSubcribeUser[],
   listWaitingStudent: UnSubcribeUser[],
-  allUser: UserList[]
+  allUser: UserList[],
+  searchUser: SearchUser[],
+  paginateUser: Pagination,
+  waitingUser: WaitingUser[],
+  addUser: AddUser,
+  deleteUser: any
 }
 
 const initialState: UserState = {
@@ -98,7 +134,26 @@ const initialState: UserState = {
   userList: [],
   courseStudent: [],
   listWaitingStudent: [],
-  allUser: []
+  allUser: [],
+  searchUser: [],
+  paginateUser: {
+    currentPage: 0,
+    count: 0,
+    totalPages: 0,
+    totalCount: 0,
+    items: [],
+  },
+  waitingUser: [],
+  addUser: {
+    taiKhoan: "haotrinh",
+    matKhau: "123456",
+    hoTen: "CrMaster",
+    soDt: "19009090",
+    maLoaiNguoiDung: "GV",
+    maNhom: "GP01",
+    email: "haotrinh@gmail.com",
+  },
+  deleteUser: '',
 }
 
 const UserReducer = createSlice({
@@ -114,7 +169,7 @@ const UserReducer = createSlice({
     getProfileUpdateAction: (state, action) => {
       state.userProfileUpdate = action.payload;
     },
-    RegisterAction: (state, action) => {
+    RegisterAction: (state:UserState, action: PayloadAction<UserRegister[]>) => {
       state.userRegister = action.payload;
     },
     registerCourseAction: (state: UserState, action: PayloadAction<{}>) => {
@@ -137,18 +192,34 @@ const UserReducer = createSlice({
     },
     getAllUserAction: (state: UserState, action: PayloadAction<UserList[]>) => {
       state.allUser = action.payload
+    },
+    searchUserAction: (state: UserState, action: PayloadAction<SearchUser[]>) => {
+      state.searchUser = action.payload
+    },
+    getUserPaginationAction: (state: UserState, action: PayloadAction<Pagination>) => {
+      state.paginateUser = action.payload
+    },
+    getWaitingUserAction: (state: UserState, action: PayloadAction<WaitingUser[]>) => {
+      state.waitingUser = action.payload
+    },
+    addUserAction: (state: UserState, action: PayloadAction<AddUser>) => {
+      state.addUser = action.payload
+    },
+    deleteUserAction: (state: UserState, action: PayloadAction<any>) => {
+      state.deleteUser = action.payload
     }
+
   }
 });
 
-export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction, getUserListAction, getCourseStudentAction, getWaitingStudentAction,getAllUserAction } = UserReducer.actions
+export const { loginAction, getProfileAction, getProfileUpdateAction, RegisterAction, registerCourseAction, cancelSubcribeAction, unSubcribeAction, getUserListAction, getCourseStudentAction, getWaitingStudentAction, getAllUserAction, searchUserAction, getUserPaginationAction, getWaitingUserAction, addUserAction, deleteUserAction } = UserReducer.actions
 
 export default UserReducer.reducer
 
 export const loginApi = (userLogin: any) => {
   return async (dispatch: DispatchType) => {
     const result: any = await http.post('/api/QuanLyNguoiDung/DangNhap', userLogin);
-    const action = loginAction(result.data.content);
+    const action = loginAction(result.data);
     dispatch(action);
 
     const actionGetProfile = getProfileApi();
@@ -208,9 +279,9 @@ export const getCancelSubcribeApi = (inform: {}) => {
     dispatch(action)
   }
 }
-export const getUnSubcribeApi = (maKhoaHoc: string) => {
+export const getUnSubcribeApi = () => {
   return async (dispatch: DispatchType) => {
-    const result: any = await http.post('/api/QuanLyNguoiDung/LayDanhSachNguoiDungChuaGhiDanh', maKhoaHoc);
+    const result: any = await http.get('/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01');
     const action = unSubcribeAction(result.data);
     dispatch(action)
   }
@@ -250,5 +321,50 @@ export const getAllUserApi = () => {
     const result: any = await http.get('/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01')
     const action = getAllUserAction(result.data);
     dispatch(action)
+  }
+}
+
+export const searchUserApi = (keyword:string) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.get("/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=" + `${keyword}`);
+      const action = searchUserAction(result.data);
+      dispatch(action)
+  }
+}
+
+export const getUserPaginationApi = (page: number, userPerPage: number) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.get(`/api/QuanLyNguoiDung/LayDanhSachNguoiDung_PhanTrang?MaNhom=GP01&page=${page}&pageSize=${userPerPage}`);
+      let paginateUser: Pagination = result.data
+      const action: PayloadAction<Pagination> = getUserPaginationAction(paginateUser)
+      dispatch(action)
+  }
+}
+
+export const getWaitingUserApi = (maKhoaHoc: string) => {
+  const body = {
+      "taiKhoan": maKhoaHoc,
+  };
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.post(`/api/QuanLyNguoiDung/LayDanhSachHocVienChoXetDuyet`, body)
+      let user: WaitingUser[] = result.data
+      const action: PayloadAction<WaitingUser[]> = getWaitingUserAction(user)
+      dispatch(action)
+  }
+}
+
+export const addUserApi = (body: AddUser) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.post('/api/QuanLyNguoiDung/ThemNguoiDung', body)
+      const action: PayloadAction<AddUser> = addUserAction(result.data)
+      dispatch(action)
+  }
+}
+
+export const deleteUserApi = (taiKhoan: string) => {
+  return async (dispatch: DispatchType) => {
+      const result: any = await http.delete(`api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`)
+      const action: PayloadAction<any> = deleteUserAction(result.data)
+      dispatch(action)
   }
 }

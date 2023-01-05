@@ -20,9 +20,6 @@ export default function AddUser({ }: Props) {
     }, [])
 
 
-
-
-
     return (
         <div className='container admin'>
             <div className='row'>

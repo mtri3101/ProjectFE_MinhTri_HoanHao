@@ -63,13 +63,21 @@ export interface CancelSubcribe {
     maKhoaHoc: string;
     taiKhoan: string;
 }
-
+export interface UnSubcribeCourse {
+    maKhoaHoc: string;
+    biDanh: string;
+    tenKhoaHoc: string;
+}
 export interface WaitingCourse {
     maKhoaHoc: string;
     biDanh: string;
     tenKhoaHoc: string;
 }
-
+export interface CourseApprove {
+    maKhoaHoc: string;
+    biDanh: string;
+    tenKhoaHoc: string;
+}
 export interface AddCourse {
     maKhoaHoc: string;
     biDanh: string;
@@ -92,9 +100,11 @@ export interface CourseState {
     courseDetail: CourseDetail | null,
     cancelSubcribe: CancelSubcribe[],
     paginateCourse: Pagination,
+    unSubcribeCourse: UnSubcribeCourse[],
     waitingCourse: WaitingCourse[],
+    courseApprove: CourseApprove[],
     addCourse: AddCourse,
-    deleteCourse: any
+    deleteCourse: any,
 }
 
 
@@ -112,7 +122,9 @@ const initialState: CourseState = {
         totalCount: 0,
         items: [],
     },
+    unSubcribeCourse: [],
     waitingCourse: [],
+    courseApprove: [],
     addCourse: {
         maKhoaHoc: "11111",
         biDanh: "lap trinh C",
@@ -156,7 +168,13 @@ const CourseReducer = createSlice({
         getCoursePaginationAction: (state: CourseState, action: PayloadAction<Pagination>) => {
             state.paginateCourse = action.payload
         },
+        getUnSubcribeCourseAction: (state: CourseState, action: PayloadAction<UnSubcribeCourse[]>) => {
+            state.waitingCourse = action.payload
+        },
         getWaitingCourseAction: (state: CourseState, action: PayloadAction<WaitingCourse[]>) => {
+            state.waitingCourse = action.payload
+        },
+        getCourseApproveAction: (state: CourseState, action: PayloadAction<CourseApprove[]>) => {
             state.waitingCourse = action.payload
         },
         addCourseAction: (state: CourseState, action: PayloadAction<AddCourse>) => {
@@ -169,7 +187,7 @@ const CourseReducer = createSlice({
     }
 });
 
-export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction, cancelSubcribeAction, getCoursePaginationAction, getWaitingCourseAction, addCourseAction, deleteCourseAction } = CourseReducer.actions
+export const { setArrCourseAction, setCourseCategoryAction, setCourseByCategoryAction, setCourseDetailAction, cancelSubcribeAction, getCoursePaginationAction, getUnSubcribeCourseAction, getWaitingCourseAction, getCourseApproveAction, addCourseAction, deleteCourseAction } = CourseReducer.actions
 
 export default CourseReducer.reducer
 
@@ -232,6 +250,15 @@ export const getCoursePaginationApi = (tenKhoaHoc: string, page: number, courseP
     }
 }
 
+export const getUnSubcribeCourseApi = () => {
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.post(`/api/QuanLyNguoiDung/LayDanhSachKhoaHocChuaGhiDanh?TaiKhoan=khai`)
+        let course: UnSubcribeCourse[] = result.data
+        const action: PayloadAction<UnSubcribeCourse[]> = getUnSubcribeCourseAction(course)
+        dispatch(action)
+    }
+}
+
 export const getWaitingCourseApi = (taiKhoan: string) => {
     const body = {
         "taiKhoan": taiKhoan,
@@ -240,6 +267,18 @@ export const getWaitingCourseApi = (taiKhoan: string) => {
         const result: any = await http.post(`/api/QuanLyNguoiDung/LayDanhSachKhoaHocChoXetDuyet`, body)
         let course: WaitingCourse[] = result.data
         const action: PayloadAction<WaitingCourse[]> = getWaitingCourseAction(course)
+        dispatch(action)
+    }
+}
+
+export const getCourseApproveApi = (taiKhoan: string) => {
+    const body = {
+        "taiKhoan": taiKhoan,
+    };
+    return async (dispatch: DispatchType) => {
+        const result: any = await http.post(`/api/QuanLyNguoiDung/LayDanhSachKhoaHocDaXetDuyet`, body)
+        let course: WaitingCourse[] = result.data
+        const action: PayloadAction<WaitingCourse[]> = getCourseApproveAction(course)
         dispatch(action)
     }
 }

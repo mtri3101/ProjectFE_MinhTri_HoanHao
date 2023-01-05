@@ -7,9 +7,6 @@ import '../../Assets/Scss/Admin/Course.scss'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { getCourseStudentApi, getProfileApi, getUnSubcribeApi, getWaitingStudentApi, UnSubcribeUser } from '../../Redux/Reducers/UserReducer'
-import axios from 'axios'
-import { url } from 'inspector'
-import { URL } from 'url'
 
 type Props = {}
 
@@ -21,7 +18,6 @@ export default function CourseManagement({ }: Props) {
     const [currentPage, setCurrentPage] = useState(1)
     const [valueSearch, setValueSearch] = useState('')
     const dispatch: DispatchType = useDispatch()
-
 
     const value = localStorage.getItem("userLogin")
 
@@ -210,7 +206,6 @@ export default function CourseManagement({ }: Props) {
         dispatch(action)
         console.log(maKhoaHoc)
     }
-
 
     return (
         <div >

@@ -13,8 +13,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Profile from './Pages/Profile';
 import MyCourse from './Pages/MyCourse';
-import AddUser from './Pages/AddUser';
-import UserManagement from './Pages/UserManagement';
+import UserManagement from './Pages/Admin/UserManagement';
 import AdminTemplate from './Templates/AdminTemplate';
 import CourseManagement from './Pages/Admin/CourseManagement';
 
