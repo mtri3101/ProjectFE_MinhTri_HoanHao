@@ -142,28 +142,27 @@ const handleClickPage = (value: number) => {
         .required("Vui lòng nhập vào số điện thoại !")
         .typeError("Số điện thoại phải là số !"),
       maLoaiNguoiDung: yup.string().required("Vui lòng chọn mã loại người dùng !"),
-      maNhom: yup.string().required("Vui lòng nhập vào mã nhóm !"),
+      maNhom: yup.string().required("Vui lòng chọn mã nhóm !")
     }),
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: (values, { resetForm }) => {
       console.log(values)
-      // if (value !== null) {
-      //     const body: AddUser = {
-      //       taiKhoan: values.taiKhoan,
-      //       matKhau: values.matKhau,
-      //       hoTen: values.hoTen,
-      //       soDt: values.soDt,
-      //       maLoaiNguoiDung: values.maLoaiNguoiDung,
-      //       maNhom: values.maNhom,
-      //       email: values.email,
-      //     }
-      //     const action = addUserApi(body);
-      //     dispatch(action)
-      // }
-      // resetForm();
-      
-  }
+      if (value !== null) {
+          const body: AddUser = {
+            taiKhoan: values.taiKhoan,
+            matKhau: values.matKhau,
+            hoTen: values.hoTen,
+            soDt: values.soDt,
+            maLoaiNguoiDung: values.maLoaiNguoiDung,
+            maNhom: values.maNhom,
+            email: values.email,
+          }
+          const action = addUserApi(body);
+          dispatch(action)
+      }
+      resetForm();    
+    }
   });
 
   const openModalGhiDanh = (maKhoaHoc: string) => {
@@ -246,6 +245,14 @@ const deleteCourse = (maKhoaHoc: string) => {
                                       <input className='form-control' name={"hoTen"} value={frm.values.hoTen} onChange={frm.handleChange} onBlur={frm.handleBlur} />
                                       {frm.errors.hoTen ? <p className='text text-danger'>{frm.errors.hoTen}</p> : ''}
                                   </div>
+                                  <div className='form-group maNhom'>
+                                      <p className='mb-1 mt-3'>Mã nhóm</p>
+                                      <select name="maNhom" value={frm.values.maNhom} onChange={frm.handleChange} onBlur={frm.handleBlur}>
+                                          <option>Vui lòng chọn mã nhóm</option>
+                                          <option>GP01</option>
+                                      </select>
+                                      {frm.errors.maNhom ? <p className='text text-danger'>{frm.errors.maNhom}</p> : ''}
+                                  </div>
                               </div>
                               <div className='col-6 right'>
                                   <div className='form-group email'>
@@ -267,10 +274,11 @@ const deleteCourse = (maKhoaHoc: string) => {
                                       </select>
                                       {frm.errors.maLoaiNguoiDung ? <p className='text text-danger'>{frm.errors.maLoaiNguoiDung}</p> : ''}
                                   </div>
+                                  <div className='form-group btn-them mt-5'>
+                                    <button type='submit' className='btn btn-primary'>Thêm</button>
+                                  </div>
                               </div>
-                              <div className='form-group btn-them'>
-                                  <button type='submit' className='btn btn-primary'>Thêm</button>
-                              </div>
+                              
                             </form>
                         </div>
                         <div className="modal-footer">
