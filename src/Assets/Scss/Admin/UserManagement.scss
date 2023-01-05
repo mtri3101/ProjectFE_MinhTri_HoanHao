@@ -210,6 +210,21 @@
                             }
                         }
                         .form-group-maLoaiNguoiDung{
+                            padding-bottom: 30px;
+                            p{
+                                margin-bottom: 5px;
+                                color: #efe80b;
+                            }
+                            select{
+                                width: 100%;
+                                height: 40px;
+                                background: #eee;
+                                border: none;
+                                padding: 10px 15px;
+                                margin: 0px;
+                            }
+                        }  
+                        .form-group-maNhom{
                             padding-bottom: 0px;
                             p{
                                 margin-bottom: 5px;

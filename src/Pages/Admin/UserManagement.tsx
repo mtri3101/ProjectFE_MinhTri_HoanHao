@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../../Assets/Scss/Admin/UserManagement.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { DispatchType, RootState } from "../../Redux/ConfigStore";
-import { AddUser, addUserApi, deleteUserApi, getProfileUpdateApi, getUnSubcribeApi, getUserPaginationApi, SearchUser, searchUserApi, UnSubcribeUser } from "../../Redux/Reducers/UserReducer";
+import { AddUser, addUserApi, deleteUserApi, getProfileUpdateApi, getUnSubcribeApi, getUserPaginationApi, SearchUser, searchUserApi, UnSubcribeUser, UserProfileUpdate } from "../../Redux/Reducers/UserReducer";
 import { useEffect } from "react";
 import { addCourseApi, CourseApprove, CourseCategoryModel, CourseDetail, deleteCourseApi, getCourseApproveApi, getWaitingCourseApi, WaitingCourse } from "../../Redux/Reducers/CourseReducer";
 import { useFormik } from "formik";
@@ -12,7 +12,7 @@ import * as yup from "yup";
 type Props = {};
 
 export default function UserManagement({}: Props) {
-  const { unSubcribeUser, paginateUser, addUser } = useSelector(
+  const { unSubcribeUser, paginateUser, userProfileUpdate } = useSelector(
     (state: RootState) => state.UserReducer
   );
   const { courseApprove, waitingCourse } = useSelector(
@@ -147,6 +147,8 @@ const handleClickPage = (value: number) => {
     validateOnBlur: false,
     onSubmit: (values, { resetForm }) => {
       console.log(values)
+      const action = getProfileUpdateApi(values);
+      dispatch(action);
       if (value !== null) {
           const body: AddUser = {
             taiKhoan: values.taiKhoan,
@@ -161,6 +163,36 @@ const handleClickPage = (value: number) => {
           dispatch(action)
       }
       resetForm();    
+    }
+  });
+
+
+  const frmUpdate = useFormik({
+    initialValues: {
+      hoTen: "",
+      taiKhoan: "",
+      matKhau: "",
+      email: "",
+      soDt: "",
+      maLoaiNguoiDung: "",
+      maNhom: ""
+    },
+    validationSchema: yup.object().shape({
+      hoTen: yup.string().required("Vui lòng nhập vào họ tên !"),
+      taiKhoan: yup.string().required("Vui lòng nhập vào tài khoản !"),
+      matKhau: yup.string().required("Vui lòng nhập vào mật khẩu !").min(6, "Mật khẩu từ 6 - 20 ký tự !").max(20, "Mật khẩu từ 6 - 20 ký tự !"),
+      email: yup.string().required("Vui lòng nhập vào email !").email("Email không đúng định dạng !"),
+      soDt: yup.number().required("Vui lòng nhập vào số điện thoại !").typeError("Số điện thoại phải là số !"),
+      maLoaiNguoiDung: yup.string().required("Vui lòng chọn mã loại người dùng !"),
+      maNhom: yup.string().required("Vui lòng chọn mã nhóm !"),
+    }),
+    validateOnChange: false,
+    validateOnBlur: false,
+    onSubmit: (values) => {
+      console.log(values)
+      const action = getProfileUpdateApi(values);
+      dispatch(action);    
+      window.location.reload()
     }
   });
 
@@ -491,7 +523,7 @@ const deleteUser = (taiKhoan: string) => {
             <div className="modal-body">
               <form
                 className="form-group-container"
-                onSubmit={frm.handleSubmit}
+                onSubmit={frmUpdate.handleSubmit}
               >
                 <div className="container">
                   <div className="row">
@@ -501,11 +533,11 @@ const deleteUser = (taiKhoan: string) => {
                         type="text"
                         placeholder="Vui lòng nhập vào họ tên"
                         name={"hoTen"}
-                        onChange={frm.handleChange}
-                        onBlur={frm.handleBlur}
+                        onChange={frmUpdate.handleChange}
+                        onBlur={frmUpdate.handleBlur}
                       />
-                      {frm.errors.hoTen ? (
-                        <p className="text text-danger">{frm.errors.hoTen}</p>
+                      {frmUpdate.errors.hoTen ? (
+                        <p className="text text-danger">{frmUpdate.errors.hoTen}</p>
                       ) : (
                         ""
                       )}
@@ -516,12 +548,12 @@ const deleteUser = (taiKhoan: string) => {
                         type="text"
                         placeholder="Vui lòng nhập vào tài khoản"
                         name={"taiKhoan"}
-                        onChange={frm.handleChange}
-                        onBlur={frm.handleBlur}
+                        onChange={frmUpdate.handleChange}
+                        onBlur={frmUpdate.handleBlur}
                       />
-                      {frm.errors.taiKhoan ? (
+                      {frmUpdate.errors.taiKhoan ? (
                         <p className="text text-danger">
-                          {frm.errors.taiKhoan}
+                          {frmUpdate.errors.taiKhoan}
                         </p>
                       ) : (
                         ""
@@ -533,11 +565,11 @@ const deleteUser = (taiKhoan: string) => {
                         type="password"
                         placeholder="Vui lòng nhập vào mật khẩu"
                         name={"matKhau"}
-                        onChange={frm.handleChange}
-                        onBlur={frm.handleBlur}
+                        onChange={frmUpdate.handleChange}
+                        onBlur={frmUpdate.handleBlur}
                       />
-                      {frm.errors.matKhau ? (
-                        <p className="text text-danger">{frm.errors.matKhau}</p>
+                      {frmUpdate.errors.matKhau ? (
+                        <p className="text text-danger">{frmUpdate.errors.matKhau}</p>
                       ) : (
                         ""
                       )}
@@ -548,11 +580,11 @@ const deleteUser = (taiKhoan: string) => {
                         type="text"
                         placeholder="Vui lòng nhập vào email "
                         name={"email"}
-                        onChange={frm.handleChange}
-                        onBlur={frm.handleBlur}
+                        onChange={frmUpdate.handleChange}
+                        onBlur={frmUpdate.handleBlur}
                       />
-                      {frm.errors.email ? (
-                        <p className="text text-danger">{frm.errors.email}</p>
+                      {frmUpdate.errors.email ? (
+                        <p className="text text-danger">{frmUpdate.errors.email}</p>
                       ) : (
                         ""
                       )}
@@ -562,12 +594,12 @@ const deleteUser = (taiKhoan: string) => {
                       <input
                         type="text"
                         placeholder="Vui lòng nhập vào số điện thoại"
-                        name={"soDT"}
-                        onChange={frm.handleChange}
-                        onBlur={frm.handleBlur}
+                        name={"soDt"}
+                        onChange={frmUpdate.handleChange}
+                        onBlur={frmUpdate.handleBlur}
                       />
-                      {frm.errors.soDt ? (
-                        <p className="text text-danger">{frm.errors.soDt}</p>
+                      {frmUpdate.errors.soDt ? (
+                        <p className="text text-danger">{frmUpdate.errors.soDt}</p>
                       ) : (
                         ""
                       )}
@@ -578,17 +610,38 @@ const deleteUser = (taiKhoan: string) => {
                         id="maLoaiNguoiDung"
                         className=""
                         name="maLoaiNguoiDung"
-                        value={frm.values.maLoaiNguoiDung}
-                        onChange={frm.handleChange}
-                        onBlur={frm.handleBlur}
+                        value={frmUpdate.values.maLoaiNguoiDung}
+                        onChange={frmUpdate.handleChange}
+                        onBlur={frmUpdate.handleBlur}
                       >
                         <option>Vui lòng chọn mã loại người dùng</option>
                         <option>HV</option>
                         <option>GV</option>
                       </select>
-                      {frm.errors.maLoaiNguoiDung ? (
+                      {frmUpdate.errors.maLoaiNguoiDung ? (
                         <p className="text text-danger">
-                          {frm.errors.maLoaiNguoiDung}
+                          {frmUpdate.errors.maLoaiNguoiDung}
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div className="form-group-maNhom">
+                      <p>Mã nhóm</p>
+                      <select
+                        id="maNhom"
+                        className=""
+                        name="maNhom"
+                        value={frmUpdate.values.maNhom}
+                        onChange={frmUpdate.handleChange}
+                        onBlur={frmUpdate.handleBlur}
+                      >
+                        <option>Vui lòng chọn mã nhóm</option>
+                        <option>GP01</option>
+                      </select>
+                      {frmUpdate.errors.maNhom ? (
+                        <p className="text text-danger">
+                          {frmUpdate.errors.maNhom}
                         </p>
                       ) : (
                         ""
@@ -596,19 +649,19 @@ const deleteUser = (taiKhoan: string) => {
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-danger"
-                data-bs-dismiss="modal"
-              >
-                Đóng
-              </button>
-              <button type="button" className="btn btn-primary">
-                Cập nhật
-              </button>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-bs-dismiss="modal"
+                >
+                  Đóng
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Cập nhật
+                </button>
+              </div>
+            </form>
             </div>
           </div>
         </div>
