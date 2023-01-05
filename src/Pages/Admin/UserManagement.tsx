@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../../Assets/Scss/Admin/UserManagement.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { DispatchType, RootState } from "../../Redux/ConfigStore";
-import { AddUser, addUserApi, getProfileUpdateApi, getUnSubcribeApi, getUserPaginationApi, SearchUser, searchUserApi, UnSubcribeUser } from "../../Redux/Reducers/UserReducer";
+import { AddUser, addUserApi, deleteUserApi, getProfileUpdateApi, getUnSubcribeApi, getUserPaginationApi, SearchUser, searchUserApi, UnSubcribeUser } from "../../Redux/Reducers/UserReducer";
 import { useEffect } from "react";
 import { addCourseApi, CourseApprove, CourseCategoryModel, CourseDetail, deleteCourseApi, getCourseApproveApi, getWaitingCourseApi, WaitingCourse } from "../../Redux/Reducers/CourseReducer";
 import { useFormik } from "formik";
@@ -49,7 +49,7 @@ const renderUser = () => {
               <td>
                   <button className='btn btn-success my-1 ghiDanh' data-bs-toggle="modal" data-bs-target="#modalGhiDanh" onClick={() => openModalGhiDanh(user.taiKhoan)}>Ghi danh</button>
                   <button className='btn btn-primary mx-3 my-1 sua'>Sửa</button>
-                  <button className='btn btn-danger my-1 xoa' onClick={() => deleteCourse(user.taiKhoan)}>Xóa</button>
+                  <button className='btn btn-danger my-1 xoa' onClick={() => deleteUser(user.taiKhoan)}>Xóa</button>
               </td>
           </tr>
       })
@@ -67,7 +67,7 @@ const renderUser = () => {
               <td>
                   <button className='btn btn-success my-1 ghiDanh' data-bs-toggle="modal" data-bs-target="#modalGhiDanh" onClick={() => openModalGhiDanh(user.taiKhoan)}>Ghi danh</button>
                   <button className='btn btn-primary mx-3 my-1 sua'>Sửa</button>
-                  <button className='btn btn-danger xoa' onClick={() => deleteCourse(user.taiKhoan)}>Xóa</button>
+                  <button className='btn btn-danger xoa' onClick={() => deleteUser(user.taiKhoan)}>Xóa</button>
               </td>
           </tr>
       })
@@ -208,10 +208,10 @@ const renderCourseApprove = (): JSX.Element[] => {
     })
 }
 
-const deleteCourse = (maKhoaHoc: string) => {
-    const action = deleteCourseApi(maKhoaHoc)
+const deleteUser = (taiKhoan: string) => {
+    const action = deleteUserApi(taiKhoan)
     dispatch(action)
-    console.log(maKhoaHoc)
+    console.log(taiKhoan)
 }
 
   return (
