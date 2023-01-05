@@ -3,16 +3,16 @@ import { NavLink } from "react-router-dom";
 import "../../Assets/Scss/Admin/UserManagement.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { DispatchType, RootState } from "../../Redux/ConfigStore";
-import { AddUser, addUserApi, getProfileUpdateApi, getUnSubcribeApi, getUserPaginationApi, SearchUser, searchUserApi, UnSubcribeUser } from "../../Redux/Reducers/UserReducer";
+import { AddUser, addUserApi, getUserPaginationApi, UnSubcribeUser } from "../../Redux/Reducers/UserReducer";
 import { useEffect } from "react";
-import { addCourseApi, CourseApprove, CourseCategoryModel, CourseDetail, deleteCourseApi, getCourseApproveApi, getWaitingCourseApi, WaitingCourse } from "../../Redux/Reducers/CourseReducer";
+import { CourseApprove, deleteCourseApi, getCourseApproveApi, getWaitingCourseApi, WaitingCourse } from "../../Redux/Reducers/CourseReducer";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
 type Props = {};
 
 export default function UserManagement({ }: Props) {
-  const { unSubcribeUser, paginateUser, addUser } = useSelector(
+  const { paginateUser } = useSelector(
     (state: RootState) => state.UserReducer
   );
   const { courseApprove, waitingCourse } = useSelector(
@@ -21,7 +21,6 @@ export default function UserManagement({ }: Props) {
   const [currentPage, setCurrentPage] = useState(1)
   const [valueSearch, setValueSearch] = useState('')
   const dispatch: DispatchType = useDispatch();
-  const [keyword, setKeyword] = useState('')
 
   const value = localStorage.getItem("userLogin")
 
@@ -55,7 +54,6 @@ export default function UserManagement({ }: Props) {
       })
     } else {
       const arrSearch = paginateUser?.items?.filter((user: UnSubcribeUser) => user.taiKhoan.toLowerCase().includes(valueSearch.toLowerCase()) || user.hoTen.toLowerCase().includes(valueSearch.toLowerCase()));
-      console.log(valueSearch)
       return arrSearch.map((user: UnSubcribeUser, index: number) => {
         return <tr key={index}>
           <td>{index += 1}</td>
@@ -142,28 +140,23 @@ export default function UserManagement({ }: Props) {
         .required("Vui lòng nhập vào số điện thoại !")
         .typeError("Số điện thoại phải là số !"),
       maLoaiNguoiDung: yup.string().required("Vui lòng chọn mã loại người dùng !"),
-      // maNhom: yup.string().required("Vui lòng nhập vào mã nhóm !"),
+      maNhom: yup.string().required("Vui lòng chọn mã nhóm !")
     }),
-    // validateOnChange: false,
-    // validateOnBlur: false,
-
     onSubmit: (values, { resetForm }) => {
-      console.log(values)
-      // if (value !== null) {
-      //     const body: AddUser = {
-      //       taiKhoan: values.taiKhoan,
-      //       matKhau: values.matKhau,
-      //       hoTen: values.hoTen,
-      //       soDt: values.soDt,
-      //       maLoaiNguoiDung: values.maLoaiNguoiDung,
-      //       maNhom: values.maNhom,
-      //       email: values.email,
-      //     }
-      //     const action = addUserApi(body);
-      //     dispatch(action)
-      // }
-      // resetForm();
-
+      if (value !== null) {
+        const body: AddUser = {
+          taiKhoan: values.taiKhoan,
+          matKhau: values.matKhau,
+          hoTen: values.hoTen,
+          soDt: values.soDt,
+          maLoaiNguoiDung: values.maLoaiNguoiDung,
+          maNhom: values.maNhom,
+          email: values.email,
+        }
+        const action = addUserApi(body);
+        dispatch(action)
+      }
+      resetForm();
     }
   });
 
@@ -213,13 +206,12 @@ export default function UserManagement({ }: Props) {
   const deleteCourse = (maKhoaHoc: string) => {
     const action = deleteCourseApi(maKhoaHoc)
     dispatch(action)
-    console.log(maKhoaHoc)
   }
 
   return (
-    <div className="container">
+    <div className="container user">
       <div className="row">
-        <div className="col-10">
+        <div className="col-12">
           <button className='btn btn-success my-3' data-bs-toggle="modal" data-bs-target="#addUserModal" >Thêm người dùng</button>
           <div className="modal fade admin-course" id="addUserModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-xl">
@@ -251,7 +243,7 @@ export default function UserManagement({ }: Props) {
                     <div className='col-6 right'>
                       <div className='form-group email'>
                         <p className='mb-1 mt-3'>Email</p>
-                        <input type='input' className='form-control' name="email" id="email"  value={frm.values.email} onChange={frm.handleChange} onBlur={frm.handleBlur} />
+                        <input type='input' className='form-control' name="email" id="email" value={frm.values.email} onChange={frm.handleChange} onBlur={frm.handleBlur} />
                         {frm.errors.email ? <p className='text text-danger'>{frm.errors.email}</p> : ''}
                       </div>
                       <div className='form-group soDt'>
@@ -259,14 +251,13 @@ export default function UserManagement({ }: Props) {
                         <input type='input' className='form-control' name="soDt" id="soDt" value={frm.values.soDt} onChange={frm.handleChange} onBlur={frm.handleBlur} />
                         {frm.errors.soDt ? <p className='text text-danger'>{frm.errors.soDt}</p> : ''}
                       </div>
-                      <div className='form-group maLoaiNguoiDung'>
-                        <p className='mb-1 mt-3'>Loại người dùng</p>
-                        <select name="maLoaiNguoiDung" id="maLoaiNguoiDung" value={frm.values.maLoaiNguoiDung} onChange={frm.handleChange} onBlur={frm.handleBlur}>
-                          <option>Vui lòng chọn loại người dùng</option>
-                          <option>HV</option>
-                          <option>GV</option>
+                      <div className='form-group maNhom'>
+                        <p className='mb-1 mt-3'>Mã nhóm</p>
+                        <select name="maNhom" value={frm.values.maNhom} onChange={frm.handleChange} onBlur={frm.handleBlur}>
+                          <option>Vui lòng chọn mã nhóm</option>
+                          <option>GP01</option>
                         </select>
-                        {frm.errors.maLoaiNguoiDung ? <p className='text text-danger'>{frm.errors.maLoaiNguoiDung}</p> : ''}
+                        {frm.errors.maNhom ? <p className='text text-danger'>{frm.errors.maNhom}</p> : ''}
                       </div>
                     </div>
                     <div className='form-group btn-them'>
